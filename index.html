@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI in Your Workflow — A Practical Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/theme/black.min.css">
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+  <!-- ==================== SLIDE 1: HERO ==================== -->
+  <section data-background-color="#0f0f1a">
+    <h1 class="hero-title">AI in Your Workflow</h1>
+    <p class="hero-subtitle">a practical guide for people who actually want to get stuff done</p>
+    <p class="hero-meta">by Ahmed Taha &middot; live session &middot; ask questions anytime</p>
+    <div style="margin-top: 2em;">
+      <span class="tag tag-blue">prompting</span>
+      <span class="tag tag-orange">tools</span>
+      <span class="tag tag-purple">workflows</span>
+      <span class="tag tag-green">live demos</span>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 2: THE REALITY CHECK ==================== -->
+  <section data-auto-animate data-background-color="#0f0f1a">
+    <h2 data-id="reality-title">let's be real for a second</h2>
+    <div class="card-grid cols-2" style="margin-top: 30px;">
+      <div class="card fragment">
+        <h4>what most people think AI is</h4>
+        <p>"type question, get answer, done"</p>
+        <p>basically a fancy search engine with extra steps</p>
+      </div>
+      <div class="card fragment">
+        <h4>what AI actually is when you know what you're doing</h4>
+        <p>a thinking partner that can write, code, analyze, design, research, and build alongside you</p>
+        <p>it's not about asking better questions, it's about learning how to work <em>with</em> it</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 3: THE NUMBERS ==================== -->
+  <section data-background-color="#0f0f1a">
+    <h2>the gap is real</h2>
+    <p style="color: var(--text-muted);">people who learn to use AI properly vs those who don't</p>
+    <div class="stats-row fragment">
+      <div class="stat">
+        <div class="stat-number" data-counter data-target="73" data-suffix="%">0%</div>
+        <div class="stat-label">of people use AI at a surface level</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" data-counter data-target="10" data-suffix="x">0x</div>
+        <div class="stat-label">productivity boost when used properly</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" data-counter data-target="30" data-suffix=" min">0 min</div>
+        <div class="stat-label">is all it takes to learn the core ideas</div>
+      </div>
+    </div>
+    <div style="margin-top: 30px;">
+      <div style="display: flex; justify-content: space-between; font-size: 0.65em; color: var(--text-muted); margin-bottom: 4px;">
+        <span>where most people are</span>
+        <span>where you'll be after this session</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" data-width="92%"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 4: SECTION DIVIDER — PROMPTING ==================== -->
+  <section class="section-divider" data-background-color="#0f0f1a">
+    <div class="section-number">01</div>
+    <h2>prompting</h2>
+    <p style="color: var(--text-muted);">the skill that changes everything</p>
+  </section>
+
+  <!-- ==================== SLIDE 5: PROMPTING BASICS ==================== -->
+  <section data-auto-animate data-background-color="#0f0f1a">
+    <h2>the core idea is simple</h2>
+    <p>AI doesn't read your mind. the more context you give, the better the output.</p>
+
+    <div class="flow-diagram" style="margin: 40px 0;">
+      <div class="flow-step">
+        <div class="step-icon">🎯</div>
+        <div class="step-label">what you want</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-icon">📋</div>
+        <div class="step-label">context + constraints</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-icon">🎨</div>
+        <div class="step-label">format + style</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-icon">✅</div>
+        <div class="step-label">quality output</div>
+      </div>
+    </div>
+
+    <p class="fragment" style="color: var(--accent); font-weight: 600;">that's it. that's the whole framework.</p>
+  </section>
+
+  <!-- ==================== SLIDE 6: GOOD VS BAD PROMPTING ==================== -->
+  <section data-background-color="#0f0f1a">
+    <h2>the difference is night and day</h2>
+    <div class="prompt-toggle-container">
+      <div class="comparison">
+        <div class="comparison-col bad-col">
+          <h4>what most people type</h4>
+          <div class="prompt-example">
+            <span class="prompt-label">prompt</span>
+            <span class="bad">write me a marketing email</span>
+          </div>
+          <p style="font-size: 0.65em !important; color: var(--text-muted) !important;">vague, no context, the AI is just guessing at this point</p>
+        </div>
+        <div class="comparison-col good-col">
+          <h4>what actually works</h4>
+          <div class="prompt-example">
+            <span class="prompt-label">prompt</span>
+            <span class="good">write a launch email for our new project management tool.
+audience: small business owners who are frustrated with complexity.
+tone: casual, friendly, not salesy.
+include: one pain point, the solution, a single CTA.
+length: under 150 words.
+do not use the phrase "game changer" or any corporate buzzwords.</span>
+          </div>
+          <p style="font-size: 0.65em !important; color: var(--text-muted) !important;">specific, constrained, tells the AI exactly what good looks like</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 7: THE PROMPTING PATTERNS ==================== -->
+  <section data-background-color="#0f0f1a">
+    <h2>patterns that work every time</h2>
+    <p style="color: var(--text-muted);">click each card to see the example</p>
+    <div class="card-grid cols-3">
+      <div class="flip-card fragment">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h4 style="color: var(--accent); margin: 0 0 8px 0;">Role Setting</h4>
+            <p style="font-size: 0.72em !important; color: var(--text-muted) !important;">"you are a..."</p>
+            <p style="font-size: 0.72em !important; color: var(--text-main) !important;">give the AI a specific persona with expertise relevant to your task</p>
+            <div class="flip-hint">click to see example →</div>
+          </div>
+          <div class="flip-card-back">
+            <div class="prompt-example" style="margin: 0; font-size: 0.6em;">you are a senior UX researcher with 10 years of experience in B2B SaaS. analyze this user flow and identify friction points.</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card fragment">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h4 style="color: var(--accent-2); margin: 0 0 8px 0;">Chain of Thought</h4>
+            <p style="font-size: 0.72em !important; color: var(--text-muted) !important;">"think step by step"</p>
+            <p style="font-size: 0.72em !important; color: var(--text-main) !important;">force the AI to reason through problems instead of jumping to answers</p>
+            <div class="flip-hint">click to see example →</div>
+          </div>
+          <div class="flip-card-back">
+            <div class="prompt-example" style="margin: 0; font-size: 0.6em;">before giving your answer, think through this step by step: 1) what's the actual problem? 2) what are the constraints? 3) what are 3 possible solutions? 4) which is best and why?</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card fragment">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h4 style="color: var(--accent-3); margin: 0 0 8px 0;">Few-Shot Examples</h4>
+            <p style="font-size: 0.72em !important; color: var(--text-muted) !important;">"like this, but..."</p>
+            <p style="font-size: 0.72em !important; color: var(--text-main) !important;">show the AI what you want by giving it examples of the format</p>
+            <div class="flip-hint">click to see example →</div>
+          </div>
+          <div class="flip-card-back">
+            <div class="prompt-example" style="margin: 0; font-size: 0.6em;">convert these to catchy headlines. example: "new update" → "the update that changes how you work". now do: "pricing page redesign" →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 8: SECTION DIVIDER — TOOLS ==================== -->
+  <section class="section-divider" data-background-color="#0f0f1a">
+    <div class="section-number">02</div>
+    <h2>the tools</h2>
+    <p style="color: var(--text-muted);">what to use and when to use it</p>
+  </section>
+
+  <!-- ==================== SLIDE 9: TOOL LANDSCAPE ==================== -->
+  <section data-background-color="#0f0f1a">
+    <h2>pick the right tool for the job</h2>
+    <div style="margin: 16px 0;">
+      <button class="btn btn-primary" onclick="filterTools('all', this)">All</button>
+      <button class="btn btn-ghost" onclick="filterTools('writing', this)">Writing</button>
+      <button class="btn btn-ghost" onclick="filterTools('coding', this)">Coding</button>
+      <button class="btn btn-ghost" onclick="filterTools('visual', this)">Visual</button>
+      <button class="btn btn-ghost" onclick="filterTools('research', this)">Research</button>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px;">
+      <div class="tool-item" data-category="writing">
+        <div class="tool-icon">💬</div>
+        <div class="tool-info">
+          <h5>ChatGPT / Claude</h5>
+          <p>general writing, brainstorming, analysis, conversation</p>
+        </div>
+      </div>
+      <div class="tool-item" data-category="coding">
+        <div class="tool-icon">🔧</div>
+        <div class="tool-info">
+          <h5>Claude Code / Cursor / GitHub Copilot</h5>
+          <p>code generation, debugging, refactoring, full projects</p>
+        </div>
+      </div>
+      <div class="tool-item" data-category="visual">
+        <div class="tool-icon">🎨</div>
+        <div class="tool-info">
+          <h5>Midjourney / DALL-E / Ideogram</h5>
+          <p>image generation, mockups, visual concepts, logos</p>
+        </div>
+      </div>
+      <div class="tool-item" data-category="research">
+        <div class="tool-icon">🔍</div>
+        <div class="tool-info">
+          <h5>Perplexity / ChatGPT Search</h5>
+          <p>research with sources, fact checking, market analysis</p>
+        </div>
+      </div>
+      <div class="tool-item" data-category="visual">
+        <div class="tool-icon">🎬</div>
+        <div class="tool-info">
+          <h5>Runway / Kling / Pika</h5>
+          <p>video generation, motion graphics, short clips</p>
+        </div>
+      </div>
+      <div class="tool-item" data-category="writing">
+        <div class="tool-icon">📝</div>
+        <div class="tool-info">
+          <h5>Notion AI / Jasper</h5>
+          <p>docs, wikis, marketing copy, team knowledge bases</p>
+        </div>
+      </div>
+      <div class="tool-item" data-category="coding">
+        <div class="tool-icon">🤖</div>
+        <div class="tool-info">
+          <h5>v0 / Bolt / Lovable</h5>
+          <p>quick UIs, prototypes, full-stack apps from a prompt</p>
+        </div>
+      </div>
+      <div class="tool-item" data-category="research">
+        <div class="tool-icon">📊</div>
+        <div class="tool-info">
+          <h5>Julius / Code Interpreter</h5>
+          <p>data analysis, charts, spreadsheets, number crunching</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 10: HOW TO PICK ==================== -->
+  <section data-background-color="#0f0f1a">
+    <h2>the decision is simpler than you think</h2>
+    <div class="flow-diagram">
+      <div class="flow-step">
+        <div class="step-icon">🤔</div>
+        <div class="step-label">what am i trying to make?</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-icon">📂</div>
+        <div class="step-label">text? code? image? data?</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-icon">🛠️</div>
+        <div class="step-label">pick the specialized tool</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-icon">🔁</div>
+        <div class="step-label">iterate until it's right</div>
+      </div>
+    </div>
+    <div class="fragment" style="margin-top: 30px;">
+      <div class="card" style="border-color: var(--accent);">
+        <h4>the real trick</h4>
+        <p>don't use one tool for everything. use ChatGPT for the outline, Claude for the writing, Midjourney for the visuals, and Perplexity when you need facts. chain them together. that's the workflow.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 11: SECTION DIVIDER — WORKFLOW ==================== -->
+  <section class="section-divider" data-background-color="#0f0f1a">
+    <div class="section-number">03</div>
+    <h2>building workflows</h2>
+    <p style="color: var(--text-muted);">where the real power is</p>
+  </section>
+
+  <!-- ==================== SLIDE 12: WORKFLOW EXAMPLE ==================== -->
+  <section data-auto-animate data-background-color="#0f0f1a">
+    <h2>example: making a blog post</h2>
+    <p style="color: var(--text-muted);">here's how i'd actually do it, step by step</p>
+    <div style="margin-top: 20px;">
+      <div class="card fragment" style="margin-bottom: 12px; border-left: 3px solid var(--accent);">
+        <h4>step 1: research</h4>
+        <p>perplexity: "what are the top 5 trends in [topic] this month? give me sources"</p>
+      </div>
+      <div class="card fragment" style="margin-bottom: 12px; border-left: 3px solid var(--accent-2);">
+        <h4>step 2: outline</h4>
+        <p>claude: "take these research notes and create a blog outline. audience is [X]. tone is casual. include a hook, 3 sections, and a strong ending"</p>
+      </div>
+      <div class="card fragment" style="margin-bottom: 12px; border-left: 3px solid var(--accent-3);">
+        <h4>step 3: write</h4>
+        <p>claude: "write section 1 based on this outline. match this writing style: [paste example]. keep paragraphs short."</p>
+      </div>
+      <div class="card fragment" style="margin-bottom: 12px; border-left: 3px solid #4ade80;">
+        <h4>step 4: visuals</h4>
+        <p>midjourney: generate a header image. canva AI: create social cards.</p>
+      </div>
+      <div class="card fragment" style="border-left: 3px solid #f87171;">
+        <h4>step 5: review</h4>
+        <p>paste the final draft back into claude: "review this blog post. be brutally honest. what's weak? what would you cut?"</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 13: LIVE DEMO ==================== -->
+  <section data-background-color="#0f0f1a">
+    <div class="live-demo-badge"><div class="live-dot"></div> LIVE DEMO</div>
+    <h2>let me show you</h2>
+    <p>i'm going to open Claude right now and build something from scratch while you watch</p>
+    <div class="card" style="margin-top: 30px; text-align: center; border-color: var(--accent);">
+      <h4>what we'll build together</h4>
+      <p style="font-size: 0.9em !important; color: var(--text-main) !important;">i'll take a random idea from the audience and turn it into a real thing using AI</p>
+      <p>write the plan, generate the content, create the visuals, review it. all live.</p>
+      <div style="margin-top: 16px;">
+        <button class="btn btn-primary glow-pulse" onclick="this.textContent = '🎯 give me a topic in the chat!'">ready? click here</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 14: SECTION DIVIDER — REAL TALK ==================== -->
+  <section class="section-divider" data-background-color="#0f0f1a">
+    <div class="section-number">04</div>
+    <h2>the honest stuff</h2>
+    <p style="color: var(--text-muted);">things people don't tell you</p>
+  </section>
+
+  <!-- ==================== SLIDE 15: COMMON MISTAKES ==================== -->
+  <section data-background-color="#0f0f1a">
+    <h2>mistakes i see all the time</h2>
+    <div class="card-grid cols-2">
+      <div class="card fragment">
+        <h4 style="color: #f87171;">accepting the first output</h4>
+        <p>the first answer is rarely the best one. iterate. push back. say "that's not quite right, try again but..." and give it more direction.</p>
+      </div>
+      <div class="card fragment">
+        <h4 style="color: #f87171;">not giving enough context</h4>
+        <p>if you wouldn't be able to do the task with only the info you gave the AI, the AI can't either. give it everything relevant.</p>
+      </div>
+      <div class="card fragment">
+        <h4 style="color: #f87171;">using it for things it's bad at</h4>
+        <p>AI hallucinates. don't trust it for facts without sources. don't ask it for today's news. don't let it make decisions that need human judgment.</p>
+      </div>
+      <div class="card fragment">
+        <h4 style="color: #f87171;">not learning the shortcuts</h4>
+        <p>every tool has power features most people never touch. custom instructions, system prompts, temperature settings, @mentions in Cursor. learn them.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 16: WHAT AI CAN'T DO ==================== -->
+  <section data-background-color="#0f0f1a">
+    <h2>what AI still can't do well</h2>
+    <p style="color: var(--text-muted);">keeping it honest</p>
+    <div class="comparison">
+      <div class="comparison-col good-col">
+        <h4>great at</h4>
+        <ul>
+          <li class="fragment">first drafts of anything</li>
+          <li class="fragment">summarizing large amounts of info</li>
+          <li class="fragment">brainstorming and ideation</li>
+          <li class="fragment">code generation and debugging</li>
+          <li class="fragment">translation and rewriting</li>
+          <li class="fragment">structured data tasks</li>
+        </ul>
+      </div>
+      <div class="comparison-col bad-col">
+        <h4>bad at (for now)</h4>
+        <ul>
+          <li class="fragment">knowing what's true vs made up</li>
+          <li class="fragment">real-time info without search</li>
+          <li class="fragment">deeply personal or emotional work</li>
+          <li class="fragment">complex multi-step reasoning</li>
+          <li class="fragment">understanding YOUR specific context without being told</li>
+          <li class="fragment">replacing human judgment</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 17: SECTION DIVIDER — ADVANCED ==================== -->
+  <section class="section-divider" data-background-color="#0f0f1a">
+    <div class="section-number">05</div>
+    <h2>next level stuff</h2>
+    <p style="color: var(--text-muted);">for when you want to go deeper</p>
+  </section>
+
+  <!-- ==================== SLIDE 18: SYSTEM PROMPTS ==================== -->
+  <section data-background-color="#0f0f1a">
+    <h2>system prompts are your superpower</h2>
+    <p>this is how you create an AI that works exactly how you want, every single time</p>
+    <div class="prompt-example fragment" style="margin-top: 20px;">
+      <span class="prompt-label">system prompt example</span>
+<span class="highlight">you are my writing assistant.</span>
+
+rules:
+- never use corporate buzzwords or filler phrases
+- keep sentences short. max 15 words each.
+- always suggest a stronger word when my vocabulary is lazy
+- if i ask you to "make it better" that means: tighter, punchier, more specific
+- match this tone: <span class="good">[paste a paragraph of your own writing]</span>
+
+when i paste text, improve it silently. don't explain what you changed unless i ask.
+    </div>
+    <p class="fragment" style="color: var(--accent); font-size: 0.75em; margin-top: 16px;">set this once in Custom Instructions and every conversation starts with your rules already loaded</p>
+  </section>
+
+  <!-- ==================== SLIDE 19: CHAINING ==================== -->
+  <section data-auto-animate data-background-color="#0f0f1a">
+    <h2>chaining: the real workflow</h2>
+    <p style="color: var(--text-muted);">output of tool A becomes input of tool B</p>
+    <div class="flow-diagram" style="margin: 30px 0;">
+      <div class="flow-step">
+        <div class="step-icon">🔍</div>
+        <div class="step-label">Perplexity<br><small style="opacity: 0.5;">research</small></div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-icon">🧠</div>
+        <div class="step-label">Claude<br><small style="opacity: 0.5;">synthesize</small></div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-icon">🎨</div>
+        <div class="step-label">Midjourney<br><small style="opacity: 0.5;">visualize</small></div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-icon">📄</div>
+        <div class="step-label">Canva / Notion<br><small style="opacity: 0.5;">publish</small></div>
+      </div>
+    </div>
+    <div class="card fragment" style="border-color: var(--accent-3);">
+      <h4 style="color: var(--accent-3);">pro tip</h4>
+      <p>save your best prompts. build a library. the more you reuse and refine, the faster you get. i have prompts i've been tweaking for months that now produce exactly what i want in one shot.</p>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 20: YOUR ACTION PLAN ==================== -->
+  <section data-background-color="#0f0f1a">
+    <h2>your action plan after this session</h2>
+    <p style="color: var(--text-muted);">don't try to learn everything. start here.</p>
+    <div style="margin-top: 20px;">
+      <div class="card fragment" style="margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div style="font-size: 1.8em;">1</div>
+          <div>
+            <h4>pick ONE tool and get good at it</h4>
+            <p>don't spread yourself thin. pick Claude or ChatGPT. use it every day for a week. for everything.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card fragment" style="margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div style="font-size: 1.8em;">2</div>
+          <div>
+            <h4>set up your custom instructions</h4>
+            <p>tell the AI who you are, what you do, and how you like things done. this alone will 3x the quality of outputs.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card fragment" style="margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div style="font-size: 1.8em;">3</div>
+          <div>
+            <h4>start saving prompts that work</h4>
+            <p>when something gives you a great result, save the prompt. build your library. this compounds fast.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card fragment">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div style="font-size: 1.8em;">4</div>
+          <div>
+            <h4>add a second tool</h4>
+            <p>once you're comfortable, add a specialized tool. if you write, try midjourney. if you code, try cursor. chain them.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 21: Q&A ==================== -->
+  <section data-background-color="#0f0f1a">
+    <div class="qa-container">
+      <div class="qa-icon">?</div>
+      <h2 style="text-align: center;">questions?</h2>
+      <p style="text-align: center; color: var(--text-muted);">ask anything, seriously. there's no dumb questions when it comes to this stuff. <br>we're all figuring it out together.</p>
+      <div style="margin-top: 40px;">
+        <button class="btn btn-primary btn-large glow-pulse" onclick="this.textContent = 'go ahead, ask away'">open the floor</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 22: RESOURCES & CLOSE ==================== -->
+  <section data-background-color="#0f0f1a">
+    <h2>resources to keep learning</h2>
+    <div class="card-grid cols-2">
+      <div class="card">
+        <h4>tools mentioned</h4>
+        <div style="font-size: 0.7em; color: var(--text-muted);">
+          <p>Claude &middot; ChatGPT &middot; Perplexity</p>
+          <p>Midjourney &middot; DALL-E &middot; Ideogram</p>
+          <p>Cursor &middot; Claude Code &middot; GitHub Copilot</p>
+          <p>v0 &middot; Bolt &middot; Lovable</p>
+          <p>Runway &middot; Kling &middot; Pika</p>
+        </div>
+      </div>
+      <div class="card">
+        <h4>keep in touch</h4>
+        <div style="font-size: 0.7em; color: var(--text-muted);">
+          <p>github.com/SufficientDaikon</p>
+          <p>linkedin: ahmed-taha225</p>
+          <p>slides will be shared after the session</p>
+          <p style="color: var(--accent); margin-top: 12px;">if you found this useful, tell someone. that's the best feedback you can give.</p>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 40px;">
+      <p class="hero-subtitle" style="font-size: 1.1em !important;">thanks for being here. now go build something.</p>
+    </div>
+  </section>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
