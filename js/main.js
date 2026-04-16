@@ -53,13 +53,16 @@ Reveal.initialize({
   }
 
   // ---- Flow Diagram Animation ----
+  let flowTimers = [];
   function animateFlow(slide) {
+    flowTimers.forEach(id => clearTimeout(id));
+    flowTimers = [];
     const steps = slide.querySelectorAll('.flow-step');
     steps.forEach((step, i) => {
       step.classList.remove('active');
-      setTimeout(() => {
+      flowTimers.push(setTimeout(() => {
         step.classList.add('active');
-      }, 400 * (i + 1));
+      }, 400 * (i + 1)));
     });
   }
 
@@ -145,8 +148,12 @@ Reveal.initialize({
           const cached = pretextCache.get(el);
           if (cached) {
             const lineHeight = parseFloat(window.getComputedStyle(el).lineHeight) || 24;
-            const measured = layout(cached, containerWidth, lineHeight);
-            totalHeight += measured.height + 8;
+            try {
+              const measured = layout(cached, containerWidth, lineHeight);
+              totalHeight += measured.height + 8;
+            } catch (e) {
+              totalHeight += el.offsetHeight + 8;
+            }
           } else {
             totalHeight += el.offsetHeight + 8;
           }
@@ -164,21 +171,24 @@ Reveal.initialize({
       if (!el.closest('.card') || el.closest('.flip-card')) return;
       const containerWidth = el.parentElement.offsetWidth;
       const lineHeight = parseFloat(window.getComputedStyle(el).lineHeight) || 24;
-      const measured = layout(prepared, containerWidth, lineHeight);
-      if (measured.lines && measured.lines.length > 1) {
-        // Find optimal width that balances lines
-        let lo = containerWidth * 0.5;
-        let hi = containerWidth;
-        for (let i = 0; i < 8; i++) {
-          const mid = (lo + hi) / 2;
-          const test = layout(prepared, mid, lineHeight);
-          if (test.lines.length > measured.lines.length) {
-            lo = mid;
-          } else {
-            hi = mid;
+      try {
+        const measured = layout(prepared, containerWidth, lineHeight);
+        if (measured.lines && measured.lines.length > 1) {
+          let lo = containerWidth * 0.5;
+          let hi = containerWidth;
+          for (let i = 0; i < 8; i++) {
+            const mid = (lo + hi) / 2;
+            const test = layout(prepared, mid, lineHeight);
+            if (test.lines.length > measured.lines.length) {
+              lo = mid;
+            } else {
+              hi = mid;
+            }
           }
+          el.style.maxWidth = Math.ceil(hi) + 'px';
         }
-        el.style.maxWidth = Math.ceil(hi) + 'px';
+      } catch (e) {
+        // layout failed, skip balancing for this element
       }
     });
   });
@@ -214,8 +224,12 @@ Reveal.initialize({
             const cached = pretextCache.get(el);
             if (cached) {
               const lineHeight = parseFloat(window.getComputedStyle(el).lineHeight) || 24;
-              const measured = layout(cached, containerWidth, lineHeight);
-              totalHeight += measured.height + 8;
+              try {
+                const measured = layout(cached, containerWidth, lineHeight);
+                totalHeight += measured.height + 8;
+              } catch (e) {
+                totalHeight += el.offsetHeight + 8;
+              }
             } else {
               totalHeight += el.offsetHeight + 8;
             }
@@ -280,4 +294,6 @@ Reveal.initialize({
     animateProgressBars(firstSlide);
     checkOverflow(firstSlide);
   }
-}); // end Reveal.initialize().then()
+}).catch(err => {
+  console.error('Reveal.js initialization failed:', err);
+}); // end Reveal.initialize()
