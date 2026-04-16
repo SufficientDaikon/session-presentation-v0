@@ -3,7 +3,7 @@
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize reveal.js
+  // Initialize reveal.js (await the promise before interacting with API)
   Reveal.initialize({
     hash: true,
     transition: 'slide',
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     autoAnimateDuration: 0.8,
     autoAnimateUnmatched: false,
     plugins: []
-  });
+  }).then(() => {
 
   // ---- Flip Cards ----
   document.querySelectorAll('.flip-card').forEach(card => {
@@ -149,4 +149,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     animateProgressBars(firstSlide);
   }
+  }); // end Reveal.initialize().then()
 });
