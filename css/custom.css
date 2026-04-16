@@ -123,6 +123,23 @@
   font-size: var(--fs-h3);
   color: var(--text-muted);
   margin-top: var(--space-sm);
+  display: inline-block;
+  position: relative;
+}
+.hero-subtitle::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-3));
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: underline-in 1s 0.5s ease forwards;
+}
+@keyframes underline-in {
+  to { transform: scaleX(1); }
 }
 
 .hero-meta {
@@ -319,8 +336,14 @@
   height: 100%;
   border-radius: 20px;
   background: linear-gradient(90deg, var(--accent), var(--accent-3));
+  background-size: 200% 100%;
   width: 0%;
   transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: shimmer 2s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 0; }
+  50% { background-position: 100% 0; }
 }
 
 /* ---------- Stat Counter ---------- */
@@ -418,6 +441,24 @@
 .tag-orange { background: rgba(249, 115, 22, 0.15); color: var(--accent-2); }
 .tag-purple { background: rgba(167, 139, 250, 0.15); color: var(--accent-3); }
 .tag-green { background: rgba(74, 222, 128, 0.15); color: #4ade80; }
+.tag .sl-icon {
+  width: 14px;
+  height: 14px;
+  margin-right: 4px;
+  vertical-align: -1px;
+}
+
+/* ---------- Resource Social Links ---------- */
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.social-link:hover { color: var(--accent); }
+.social-link .sl-icon { width: 16px; height: 16px; }
 
 /* ---------- Tooltip ---------- */
 .tooltip-trigger {
@@ -499,9 +540,35 @@
 .section-divider {
   text-align: center;
   align-items: center;
+  position: relative;
 }
+.section-divider::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 50%, rgba(66, 175, 250, 0.06), transparent),
+    radial-gradient(ellipse 50% 60% at 80% 40%, rgba(167, 139, 250, 0.05), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+.section-divider > * { position: relative; z-index: 1; }
 .section-divider h2 {
   font-size: var(--fs-h1);
+}
+.section-divider p {
+  position: relative;
+  display: inline-block;
+}
+.section-divider p::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: var(--accent);
+  margin: var(--space-sm) auto 0;
+  opacity: 0.4;
+  border-radius: 1px;
 }
 .section-number {
   font-size: clamp(3rem, 10vw, 6rem);
@@ -626,6 +693,72 @@
 }
 .tool-icon .sl-icon { width: 32px; height: 32px; }
 
+/* ---------- Tool Category Accent Tints ---------- */
+.tool-item[data-category="writing"] { border-left: 3px solid rgba(66, 175, 250, 0.4); }
+.tool-item[data-category="coding"] { border-left: 3px solid rgba(249, 115, 22, 0.4); }
+.tool-item[data-category="visual"] { border-left: 3px solid rgba(167, 139, 250, 0.4); }
+.tool-item[data-category="research"] { border-left: 3px solid rgba(74, 222, 128, 0.4); }
+.tool-item[data-category="writing"] .tool-icon { color: var(--accent); }
+.tool-item[data-category="coding"] .tool-icon { color: var(--accent-2); }
+.tool-item[data-category="visual"] .tool-icon { color: var(--accent-3); }
+.tool-item[data-category="research"] .tool-icon { color: #4ade80; }
+
+/* ---------- Error Card Warning Marker ---------- */
+.card-error {
+  position: relative;
+  padding-left: calc(var(--space-md) + 28px);
+}
+.card-error::before {
+  content: '';
+  position: absolute;
+  left: var(--space-md);
+  top: var(--space-md);
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%23f87171' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z'/%3E%3Cline x1='12' y1='9' x2='12' y2='13'/%3E%3Cline x1='12' y1='17' x2='12.01' y2='17'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.6;
+}
+
+/* ---------- Flip Card Interactive Hint Icon ---------- */
+.flip-card-front::after {
+  content: '';
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m15 15 6 6m-6-6v4.8m0-4.8h4.8'/%3E%3Cpath d='M9 19.8V15m0 0H4.2M9 15l-6 6'/%3E%3Cpath d='M15 4.2V9m0 0h4.8M15 9l6-6'/%3E%3Cpath d='M9 4.2V9m0 0H4.2M9 9 3 3'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+.flip-card:hover .flip-card-front::after {
+  opacity: 0.6;
+}
+
+/* ---------- Closing Subtitle Accent Underline ---------- */
+.hero-subtitle-close {
+  position: relative;
+  display: inline-block;
+}
+.hero-subtitle-close::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-3));
+  border-radius: 1px;
+  animation: underline-grow 2s ease 0.5s forwards;
+}
+@keyframes underline-grow {
+  to { width: 100%; }
+}
+
 /* ---------- Navigation Dots Custom ---------- */
 .reveal .progress { height: 3px; }
 .reveal .progress span { background: var(--accent); }
@@ -710,6 +843,15 @@
   }
   .qa-icon {
     font-size: clamp(3rem, 8vw, 6rem);
+  }
+  .card-error {
+    padding-left: calc(var(--space-lg) + 32px);
+  }
+  .card-error::before {
+    left: var(--space-lg);
+    top: var(--space-lg);
+    width: 24px;
+    height: 24px;
   }
 }
 
