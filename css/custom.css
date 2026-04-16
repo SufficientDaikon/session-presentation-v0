@@ -19,9 +19,9 @@
   /* Fluid Typography */
   --fs-hero: clamp(2rem, 5vw + 1rem, 4.5rem);
   --fs-h1: clamp(1.75rem, 3.5vw + 0.5rem, 3rem);
-  --fs-h2: clamp(1.25rem, 2.5vw + 0.5rem, 2.2rem);
-  --fs-h3: clamp(1rem, 1.5vw + 0.5rem, 1.5rem);
-  --fs-body: clamp(0.875rem, 1vw + 0.25rem, 1.1rem);
+  --fs-h2: clamp(1.25rem, 2.5vw + 0.5rem, 2.6rem);
+  --fs-h3: clamp(1rem, 1.5vw + 0.5rem, 1.75rem);
+  --fs-body: clamp(0.875rem, 1vw + 0.25rem, 1.2rem);
   --fs-small: clamp(0.75rem, 0.8vw + 0.25rem, 0.9rem);
   --fs-xs: clamp(0.625rem, 0.6vw + 0.2rem, 0.8rem);
   --fs-stat: clamp(1.5rem, 4vw + 0.5rem, 2.8rem);
@@ -301,6 +301,10 @@
   color: var(--accent);
   font-size: var(--fs-h2);
   opacity: 0.5;
+}
+.flow-step.active + .flow-arrow {
+  opacity: 1;
+  transition: opacity 0.4s ease;
 }
 
 /* ---------- Progress Bar ---------- */
@@ -659,6 +663,13 @@
   .card {
     padding: var(--space-lg);
   }
+  .card h4 {
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+  }
+  h2 {
+    margin-bottom: var(--space-md);
+  }
   .flow-diagram {
     gap: var(--space-md);
   }
@@ -676,6 +687,10 @@
   .comparison-col {
     padding: var(--space-lg);
   }
+  .comparison-col h4 {
+    font-size: var(--fs-h3);
+    font-weight: 700;
+  }
   .prompt-example {
     padding: var(--space-lg);
     font-size: var(--fs-small);
@@ -689,6 +704,12 @@
   }
   .flip-card-front, .flip-card-back {
     padding: var(--space-lg);
+  }
+  .section-number {
+    font-size: clamp(4rem, 12vw, 8rem);
+  }
+  .qa-icon {
+    font-size: clamp(3rem, 8vw, 6rem);
   }
 }
 
