@@ -88,8 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const slide = btn.closest('section');
     const items = slide.querySelectorAll('.tool-item');
 
-    // Update active button
-    slide.querySelectorAll('.btn').forEach(b => b.classList.remove('btn-primary'));
+    // Reset all filter buttons to ghost, then activate the clicked one
+    slide.querySelectorAll('.btn[onclick*="filterTools"]').forEach(b => {
+      b.classList.remove('btn-primary');
+      b.classList.add('btn-ghost');
+    });
     btn.classList.add('btn-primary');
     btn.classList.remove('btn-ghost');
 
@@ -103,34 +106,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // ---- Prompt before/after toggle ----
-  window.togglePrompt = function(btn) {
-    const container = btn.closest('.prompt-toggle-container');
-    const before = container.querySelector('.prompt-before');
-    const after = container.querySelector('.prompt-after');
-
-    if (before.style.display !== 'none') {
-      before.style.display = 'none';
-      after.style.display = 'block';
-      btn.textContent = 'Show Bad Version';
-      btn.classList.remove('btn-outline');
-      btn.classList.add('btn-primary');
-    } else {
-      before.style.display = 'block';
-      after.style.display = 'none';
-      btn.textContent = 'Show Better Version';
-      btn.classList.add('btn-outline');
-      btn.classList.remove('btn-primary');
-    }
-  };
-
   // ---- Reveal slide change event ----
   Reveal.on('slidechanged', event => {
     const slide = event.currentSlide;
 
-    // Counters
+    // Only animate counters that are NOT inside a fragment (visible immediately)
     slide.querySelectorAll('[data-counter]').forEach(el => {
-      animateCounter(el);
+      if (!el.closest('.fragment')) {
+        animateCounter(el);
+      }
     });
 
     // Progress bars
@@ -147,10 +131,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ---- Fragment shown: animate counters inside revealed fragments ----
+  Reveal.on('fragmentshown', event => {
+    const fragment = event.fragment;
+    fragment.querySelectorAll('[data-counter]').forEach(el => {
+      animateCounter(el);
+    });
+    // Also trigger progress bars inside fragments
+    animateProgressBars(fragment);
+  });
+
   // Trigger animations for initial slide too
   const firstSlide = Reveal.getCurrentSlide();
   if (firstSlide) {
-    firstSlide.querySelectorAll('[data-counter]').forEach(animateCounter);
+    firstSlide.querySelectorAll('[data-counter]').forEach(el => {
+      if (!el.closest('.fragment')) animateCounter(el);
+    });
     animateProgressBars(firstSlide);
   }
 });

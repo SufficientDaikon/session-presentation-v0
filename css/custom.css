@@ -131,6 +131,11 @@
   border-color: var(--accent);
 }
 
+.btn-large {
+  padding: 16px 40px;
+  font-size: 1.05em;
+}
+
 /* ---------- Cards ---------- */
 .card-grid {
   display: grid;
