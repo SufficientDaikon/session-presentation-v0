@@ -1,0 +1,336 @@
+<session-handoff>
+  <meta>
+    <version>v0.1</version>
+    <created>2026-04-16</created>
+    <project>session-presentation-v0</project>
+    <purpose>Complete handoff prompt for implementing the responsive-first presentation overhaul</purpose>
+  </meta>
+
+  <identity>
+    <role>You are implementing a responsive-first overhaul of an interactive HTML/CSS/JS presentation deployed on Cloudflare Pages.</role>
+    <personality>The user is casual, direct, no corporate speak. They value speed, verification, and SOTA quality. Never question what tools you have — try them first. Always verify your work with a reviewer subagent before presenting results.</personality>
+    <rules>
+      <rule>Never claim you lack tools without trying them first. You have terminal, gh CLI, powershell, bash, node, npm, npx, wrangler CLI, git — everything.</rule>
+      <rule>Always run a reviewer subagent before finishing any implementation phase.</rule>
+      <rule>Do not ask for permission to proceed between phases — just execute.</rule>
+      <rule>All changes must maintain zero build step — CDN only, static site.</rule>
+      <rule>Responsive-first means NOT mobile-first, NOT desktop-first. Content adapts intrinsically to ANY screen size.</rule>
+      <rule>Commit after each phase. Deploy after Phase 7.</rule>
+    </rules>
+  </identity>
+
+  <first-steps>
+    <step priority="1">
+      <title>Install Chrome DevTools MCP Server</title>
+      <description>Before ANY other work, install the Chrome DevTools MCP server so you can visually inspect and debug the presentation in a real browser.</description>
+      <instructions>
+        Run the following in your terminal:
+        ```
+        /mcp add
+        ```
+        Configure these fields and press CTRL+S:
+        - Server name: chrome-devtools
+        - Server Type: [1] Local (stdio)
+        - Command: npx -y chrome-devtools-mcp@latest
+
+        After adding, verify it works by using one of its tools (e.g., take a screenshot of the live site).
+
+        Repository: https://github.com/ChromeDevTools/chrome-devtools-mcp (35k+ stars)
+        What it gives you: screenshot, console inspection, network analysis, performance traces, DOM inspection, CSS debugging — all via MCP tools you can call directly.
+
+        USE THIS for visual verification at every phase. Take screenshots after each major change to confirm nothing broke.
+      </instructions>
+    </step>
+
+    <step priority="2">
+      <title>Read the plan</title>
+      <description>Read plans/v0.1-plan.md in the project root. This is the single source of truth for all implementation work.</description>
+    </step>
+
+    <step priority="3">
+      <title>Read CLAUDE.md</title>
+      <description>Read CLAUDE.md for project conventions, architecture, and deployment commands.</description>
+    </step>
+
+    <step priority="4">
+      <title>Start a local preview server</title>
+      <description>Run `npx serve .` in the project root (detached/background) so you can use Chrome DevTools MCP to inspect changes live at localhost.</description>
+    </step>
+  </first-steps>
+
+  <project-state>
+    <location>h:\presentations\session-presentation-v0</location>
+    <repo>github.com/SufficientDaikon/session-presentation-v0</repo>
+    <branch>main</branch>
+    <live-url>https://session-presentation-v0.pages.dev</live-url>
+    <commits>
+      <commit hash="223a43e">fix: race condition in reveal init + add button type attrs</commit>
+      <commit hash="7659e71">fix: resolve 5 bugs from code review</commit>
+      <commit hash="2e6cf57">init: interactive AI workflow presentation v0</commit>
+    </commits>
+
+    <files>
+      <file path="index.html" lines="560">Main presentation — 22 slides, reveal.js 5.1.0 CDN, Inter + JetBrains Mono fonts. Script tags at bottom: reveal.min.js then main.js.</file>
+      <file path="css/custom.css" lines="540+">Full dark theme. :root vars lines 7-18. Single media query at line 533-539 (will be replaced). Fixed font sizes throughout. Card grid at line 145. Flip card height 220px at line 177.</file>
+      <file path="js/main.js" lines="154">All interactivity: reveal.js init (lines 7-21), flip cards, animated counters, progress bars, flow diagrams, typing effect, tool filter. Wrapped in Reveal.initialize().then().</file>
+      <file path="plans/v0.1-plan.md" lines="231">THE PLAN — 7 phases, 35 tasks, 2 review passes. Read this first.</file>
+      <file path="CLAUDE.md" lines="71">Project context and conventions.</file>
+      <file path="wrangler.toml" lines="4">Cloudflare Pages config. Do not modify.</file>
+      <file path=".github/workflows/deploy.yml">CI/CD pipeline. Do not modify.</file>
+    </files>
+
+    <current-reveal-config>
+      hash: true,
+      transition: 'slide',
+      transitionSpeed: 'default',
+      backgroundTransition: 'fade',
+      center: false,
+      width: 1280,
+      height: 720,
+      margin: 0.04,
+      minScale: 0.2,
+      maxScale: 2.0,
+      autoAnimateEasing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+      autoAnimateDuration: 0.8,
+      autoAnimateUnmatched: false,
+      plugins: []
+    </current-reveal-config>
+
+    <fonts>Inter (body, weights 400-900) + JetBrains Mono (code, weights 400-600) via Google Fonts CDN</fonts>
+  </project-state>
+
+  <implementation-plan>
+    <overview>
+      Replace reveal.js uniform 1280x720 scaling with responsive-first layout using:
+      - reveal.js BYOL mode (disableLayout: true)
+      - CSS clamp() fluid typography + spacing
+      - CSS Container Queries for component-level adaptation
+      - Intrinsic grids (auto-fit + minmax)
+      - Fitty.js 2.4.2 for display text auto-scaling (hero titles, section numbers)
+      - Pretext 0.0.5 by @chenglou for DOM-free text measurement (balanced layout, overflow detection, smart card heights)
+    </overview>
+
+    <cdn-sources>
+      <library name="Fitty.js" version="2.4.2" stars="3800" size="3.8KB">
+        <url>https://cdn.jsdelivr.net/npm/fitty@2.4.2/dist/fitty.min.js</url>
+        <loading>Regular script tag (UMD)</loading>
+        <role>Auto-scale display text (hero titles, section numbers, Q&amp;A icon) to fill container</role>
+      </library>
+      <library name="Pretext" version="0.0.5" stars="44200" size="ESM">
+        <url>https://esm.sh/@chenglou/pretext@0.0.5</url>
+        <loading>ESM import — main.js must become type="module" or use dynamic import()</loading>
+        <role>DOM-free text measurement for balanced card text, overflow detection, smart flip card heights</role>
+        <api>
+          prepare(text, font) — one-time text analysis (needs fonts loaded, uses canvas)
+          layout(prepared, maxWidth, lineHeight) — cheap hot path, pure arithmetic, no DOM
+        </api>
+        <critical-note>Must wait for document.fonts.ready before calling prepare(). layout() can be called freely on resize.</critical-note>
+      </library>
+    </cdn-sources>
+
+    <phase number="1" name="Foundation">
+      <task>Add Fitty.js CDN script tag to index.html (before main.js)</task>
+      <task>Convert main.js script tag to type="module"</task>
+      <task>Add Pretext ESM import at top of main.js: import { prepare, layout } from 'https://esm.sh/@chenglou/pretext@0.0.5'</task>
+      <task>Change reveal.js config: set disableLayout: true, REMOVE width, height, minScale, maxScale, margin</task>
+      <task>Add fluid typography CSS custom properties to :root in custom.css</task>
+      <task>Add fluid spacing CSS custom properties to :root in custom.css</task>
+
+      <css-vars>
+        /* Fluid Typography */
+        --fs-hero: clamp(2rem, 5vw + 1rem, 4.5rem);
+        --fs-h1: clamp(1.75rem, 3.5vw + 0.5rem, 3rem);
+        --fs-h2: clamp(1.25rem, 2.5vw + 0.5rem, 2.2rem);
+        --fs-h3: clamp(1rem, 1.5vw + 0.5rem, 1.5rem);
+        --fs-body: clamp(0.875rem, 1vw + 0.25rem, 1.1rem);
+        --fs-small: clamp(0.75rem, 0.8vw + 0.25rem, 0.9rem);
+        --fs-xs: clamp(0.625rem, 0.6vw + 0.2rem, 0.8rem);
+        --fs-stat: clamp(1.5rem, 4vw + 0.5rem, 2.8rem);
+
+        /* Fluid Spacing */
+        --space-xs: clamp(0.25rem, 0.5vw, 0.5rem);
+        --space-sm: clamp(0.5rem, 1vw, 1rem);
+        --space-md: clamp(1rem, 2vw, 2rem);
+        --space-lg: clamp(1.5rem, 3vw, 3rem);
+        --space-xl: clamp(2rem, 4vw, 4rem);
+        --slide-pad: clamp(1rem, 3vw, 3.75rem);
+      </css-vars>
+    </phase>
+
+    <phase number="2" name="CSS Overhaul">
+      <task>Make .reveal .slides section use 100dvw × 100dvh with flex layout + vertical centering</task>
+      <task>Add dvh fallback: height: 100vh; height: 100dvh;</task>
+      <task>Replace ALL fixed font sizes with fluid custom properties</task>
+      <task>Replace ALL fixed padding/margins with fluid spacing variables</task>
+      <task>Replace fixed-column grids (cols-2, cols-3) with intrinsic auto-fit + minmax(min(280px, 100%), 1fr)</task>
+      <task>Make flip cards responsive height (min-height instead of fixed 220px)</task>
+      <task>Make comparison grid intrinsic</task>
+      <task>Make stats-row flex-wrap with fluid gap</task>
+      <task>Make flow-diagram responsive (auto-wrap, directional arrows)</task>
+      <task>Ensure all interactive elements have min 44×44px touch targets</task>
+      <task>Add text-wrap: balance on headings (progressive enhancement)</task>
+      <task>Add text-wrap: pretty on body text</task>
+      <task>Handle slide content overflow: overflow-y: auto with subtle scroll indicator</task>
+      <task>Remove !important overrides where possible</task>
+    </phase>
+
+    <phase number="3" name="Container Queries">
+      <task>Add container-type: inline-size to slide sections</task>
+      <task>Add @container breakpoints for card grids</task>
+      <task>Add @container breakpoints for comparisons</task>
+      <task>Add @container breakpoints for stats rows</task>
+      <task>Add @supports (container-type: inline-size) fallback</task>
+    </phase>
+
+    <phase number="4" name="Fitty.js Integration">
+      <task>Apply fitty() to .hero-title</task>
+      <task>Apply fitty() to .section-number elements</task>
+      <task>Apply fitty() to Q&amp;A icon</task>
+      <task>Gate all fitty calls behind document.fonts.ready</task>
+      <task>Ensure fitty doesn't conflict with reveal.js slide transitions</task>
+      <note>Fitty handles its own resize via fitty.observeWindow — don't duplicate</note>
+    </phase>
+
+    <phase number="5" name="Pretext Integration">
+      <task>Import pretext via ESM at top of main.js module</task>
+      <task>Wait for document.fonts.ready before prepare() calls</task>
+      <task>Balanced card text: measure card p text → find shrink-wrap width → set max-width</task>
+      <task>Overflow detection: on slide change, measure total content → add scroll hint if exceeds viewport</task>
+      <task>Smart flip card heights: measure front + back text → set min-height to whichever is taller</task>
+      <task>Re-run layout() on resize (NOT prepare() — it's cached)</task>
+      <task>Cache all prepare() results at init time</task>
+      <note>prepare() is expensive (one-time). layout() is cheap (hot path, pure math).</note>
+    </phase>
+
+    <phase number="6" name="Polish">
+      <task>Remove the old @media (max-width: 768px) query entirely (around line 533-539)</task>
+      <task>Add resize handler coordinating fitty + pretext re-measurements</task>
+      <task>Verify reveal.js navigation controls accessible at all sizes</task>
+      <task>Test landscape mobile (very short height)</task>
+      <task>Verify ALL animations still work: flip cards, counters, progress bars, flow diagrams, typing effect, tool filter</task>
+      <task>Use Chrome DevTools MCP to take screenshots at 375px, 768px, 1024px, 1440px, 1920px widths</task>
+    </phase>
+
+    <phase number="7" name="Review and Deploy">
+      <task>Run a reviewer subagent against all 3 files (index.html, custom.css, main.js)</task>
+      <task>Fix any issues found</task>
+      <task>git add -A &amp;&amp; git commit -m "feat: responsive-first overhaul with Fitty + Pretext + fluid CSS"</task>
+      <task>wrangler pages deploy . --project-name=session-presentation-v0</task>
+      <task>Verify live site at session-presentation-v0.pages.dev</task>
+      <task>Use Chrome DevTools MCP to take final screenshots at multiple viewports</task>
+    </phase>
+  </implementation-plan>
+
+  <testing-strategy>
+    <tool name="Chrome DevTools MCP">
+      <usage>Primary visual verification tool. After EVERY phase, take a screenshot of the presentation at multiple viewport widths to confirm nothing broke.</usage>
+      <viewports>375px (phone), 768px (tablet), 1024px (laptop), 1440px (desktop), 1920px (ultrawide)</viewports>
+      <checks>
+        <check>Text is readable at all sizes (no tiny text from uniform scaling)</check>
+        <check>Grids reflow naturally (single column on narrow, multi-column on wide)</check>
+        <check>Touch targets are minimum 44×44px on narrow viewports</check>
+        <check>No horizontal overflow / scrollbar</check>
+        <check>Flip cards work (click to flip, back content visible)</check>
+        <check>Animated counters trigger on slide change</check>
+        <check>Progress bars animate</check>
+        <check>Flow diagrams animate step-by-step</check>
+        <check>Tool filter buttons work</check>
+        <check>Navigation arrows/progress bar visible and usable</check>
+      </checks>
+    </tool>
+
+    <tool name="Local server">
+      <usage>Run `npx serve .` in background for live preview. Chrome DevTools MCP connects to this.</usage>
+    </tool>
+
+    <tool name="Reviewer subagent">
+      <usage>After each phase, spawn a reviewer subagent to check:
+        - CSS: no fixed px sizes remaining (except borders/shadows/icon sizes), no orphaned selectors, clamp() values make sense
+        - JS: no race conditions, ESM imports correct, fonts.ready gate in place, no global scope pollution
+        - HTML: all interactive elements have proper attributes, script loading order correct
+        - Cross-cutting: no regressions in existing interactivity</usage>
+    </tool>
+
+    <manual-checks>
+      <check>Resize browser window smoothly from 320px to 2560px — content should adapt continuously, no jarring breakpoint jumps</check>
+      <check>Open on actual phone if possible (or use Chrome DevTools device emulation via MCP)</check>
+      <check>Rotate phone to landscape — content should not be cut off (short height scenario)</check>
+    </manual-checks>
+  </testing-strategy>
+
+  <updating-the-plan>
+    <rule>The plan lives at plans/v0.1-plan.md. As you complete tasks, check them off: [ ] → [x]</rule>
+    <rule>If you discover new tasks during implementation, add them to the appropriate phase.</rule>
+    <rule>If a phase takes a different approach than planned (e.g., pretext API changed), update the plan with what you actually did.</rule>
+    <rule>After each phase, add a brief status note at the bottom of the plan file.</rule>
+    <rule>If you hit a blocker, document it in the plan and move to the next unblocked phase.</rule>
+    <rule>The plan is a living document — it should always reflect current reality.</rule>
+  </updating-the-plan>
+
+  <deployment>
+    <manual>wrangler pages deploy . --project-name=session-presentation-v0</manual>
+    <cicd>git push origin main → GitHub Actions → Cloudflare Pages (needs CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID secrets configured in GitHub repo settings — may not be set up yet, manual deploy is the reliable fallback)</cicd>
+    <verify>After deploy, check https://session-presentation-v0.pages.dev loads correctly</verify>
+  </deployment>
+
+  <key-technical-decisions>
+    <decision>
+      <what>Fitty.js handles ONLY display text (hero titles, section numbers, Q&amp;A icon)</what>
+      <why>Fitty scales text to fill container — perfect for display text, wrong for body text</why>
+    </decision>
+    <decision>
+      <what>Pretext handles ONLY body/card text (balanced layout, overflow detection, smart heights)</what>
+      <why>Pretext measures text without DOM reflow — perfect for layout decisions on body content</why>
+    </decision>
+    <decision>
+      <what>No overlap between Fitty and Pretext targets</what>
+      <why>They solve different problems. Mixing them on the same element would cause conflicts.</why>
+    </decision>
+    <decision>
+      <what>document.fonts.ready gates ALL text measurement</what>
+      <why>Both Fitty and Pretext measure text dimensions — wrong font = wrong measurements = broken layout</why>
+    </decision>
+    <decision>
+      <what>main.js becomes type="module" for ESM Pretext import</what>
+      <why>Pretext is ESM-only. No UMD build available.</why>
+    </decision>
+    <decision>
+      <what>disableLayout: true replaces the default 1280×720 scaling</what>
+      <why>BYOL mode gives us full viewport control. Slides fill the screen naturally instead of being a scaled-down fixed canvas.</why>
+    </decision>
+    <decision>
+      <what>Container queries (not media queries) for component-level responsive</what>
+      <why>Components should adapt to their container width, not the viewport. 93%+ browser support.</why>
+    </decision>
+  </key-technical-decisions>
+
+  <gotchas>
+    <gotcha>When converting main.js to type="module", the global `filterTools` function won't be accessible from inline onclick handlers. Either: (a) attach it to window explicitly: window.filterTools = function(...), or (b) switch to addEventListener-based binding.</gotcha>
+    <gotcha>Pretext's prepare() uses canvas context internally. This works in all modern browsers but will NOT work in Node.js/SSR. Not a problem here (static site), but worth knowing.</gotcha>
+    <gotcha>Fitty has a built-in window resize observer (fitty.observeWindow). Don't add your own resize handler for fitty elements — it'll double-trigger.</gotcha>
+    <gotcha>reveal.js transitions still work with disableLayout: true, but the slide elements now use natural document flow. The .slides container no longer has a CSS transform scale. Make sure vertical centering is handled in your CSS.</gotcha>
+    <gotcha>The DOMContentLoaded pattern in current main.js may interact oddly with type="module" (modules are deferred by default). Test that Reveal.initialize() still fires correctly.</gotcha>
+    <gotcha>esm.sh may be slow on first load (cold start). Consider adding a modulepreload link in the HTML head for the pretext URL.</gotcha>
+    <gotcha>dvh units: use the fallback pattern `height: 100vh; height: 100dvh;` — the second declaration overrides the first only in browsers that support dvh.</gotcha>
+    <gotcha>The existing inline styles in index.html (style="margin-top: 2em" etc.) will need to be migrated to use fluid vars too, or at least checked for consistency.</gotcha>
+  </gotchas>
+
+  <commit-messages>
+    <phase1>feat: foundation — BYOL mode, fluid vars, Fitty + Pretext CDN</phase1>
+    <phase2>feat: CSS overhaul — fluid typography, intrinsic grids, responsive components</phase2>
+    <phase3>feat: container queries for component-level adaptation</phase3>
+    <phase4>feat: Fitty.js integration for display text auto-scaling</phase4>
+    <phase5>feat: Pretext integration for smart text layout</phase5>
+    <phase6>fix: polish — remove old media query, resize coordination, verify interactivity</phase6>
+    <phase7>chore: final review fixes + deploy</phase7>
+    <note>Always include: Co-authored-by: Copilot &lt;223556219+Copilot@users.noreply.github.com&gt;</note>
+  </commit-messages>
+
+  <final-reminder>
+    You have ALL the tools. Terminal, git, gh CLI, wrangler, npx, node, Chrome DevTools MCP (after you install it). 
+    Do not ask if you can do something — just do it. 
+    Read the plan. Execute the plan. Update the plan. Review your work. Deploy.
+    Take screenshots with Chrome DevTools MCP at every phase to visually verify.
+    The user expects SOTA quality and fast execution. Go.
+  </final-reminder>
+</session-handoff>

@@ -1,25 +1,23 @@
 /* ============================================
    Session Presentation v0 — Interactivity
+   ESM Module — Fitty + Pretext + BYOL reveal.js
    ============================================ */
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Initialize reveal.js (await the promise before interacting with API)
-  Reveal.initialize({
-    hash: true,
-    transition: 'slide',
-    transitionSpeed: 'default',
-    backgroundTransition: 'fade',
-    center: false,
-    width: 1280,
-    height: 720,
-    margin: 0.04,
-    minScale: 0.2,
-    maxScale: 2.0,
-    autoAnimateEasing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-    autoAnimateDuration: 0.8,
-    autoAnimateUnmatched: false,
-    plugins: []
-  }).then(() => {
+import { prepare, layout } from 'https://esm.sh/@chenglou/pretext@0.0.5';
+
+// ---- Reveal.js Init (BYOL mode — we own the layout) ----
+Reveal.initialize({
+  hash: true,
+  transition: 'slide',
+  transitionSpeed: 'default',
+  backgroundTransition: 'fade',
+  center: false,
+  disableLayout: true,
+  autoAnimateEasing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  autoAnimateDuration: 0.8,
+  autoAnimateUnmatched: false,
+  plugins: []
+}).then(() => {
 
   // ---- Flip Cards ----
   document.querySelectorAll('.flip-card').forEach(card => {
@@ -37,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const step = (now) => {
       const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
-      // ease out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
       const current = Math.round(eased * target);
       el.textContent = current.toLocaleString() + suffix;
@@ -83,12 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 40);
   }
 
-  // ---- Tool Category Filter ----
+  // ---- Tool Category Filter (exposed to window for inline onclick) ----
   window.filterTools = function(category, btn) {
     const slide = btn.closest('section');
     const items = slide.querySelectorAll('.tool-item');
 
-    // Reset all filter buttons to ghost, then activate the clicked one
     slide.querySelectorAll('.btn[onclick*="filterTools"]').forEach(b => {
       b.classList.remove('btn-primary');
       b.classList.add('btn-ghost');
@@ -106,11 +102,143 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  // ---- Fitty.js — display text auto-scaling (gated on fonts.ready) ----
+  document.fonts.ready.then(() => {
+    // Hero title
+    fitty('.hero-title', { minSize: 16, maxSize: 80 });
+    // Section numbers (01, 02, etc.)
+    fitty('.section-number', { minSize: 24, maxSize: 200 });
+    // Q&A icon
+    fitty('.qa-icon', { minSize: 24, maxSize: 150 });
+  });
+
+  // ---- Pretext — smart text layout (gated on fonts.ready) ----
+  const pretextCache = new Map();
+
+  document.fonts.ready.then(() => {
+    // Cache prepare() results for card paragraphs and flip card text
+    document.querySelectorAll('.card p, .flip-card-front p, .flip-card-back .prompt-example').forEach(el => {
+      const text = el.textContent.trim();
+      if (text.length > 0) {
+        const font = window.getComputedStyle(el).font;
+        try {
+          const prepared = prepare(text, font);
+          pretextCache.set(el, prepared);
+        } catch (e) {
+          // Pretext prepare failed for element, skip silently
+        }
+      }
+    });
+
+    // Smart flip card heights — measure front + back, set min-height to taller
+    document.querySelectorAll('.flip-card').forEach(card => {
+      const front = card.querySelector('.flip-card-front');
+      const back = card.querySelector('.flip-card-back');
+      if (!front || !back) return;
+
+      const containerWidth = card.offsetWidth - 56; // minus padding
+      let maxHeight = 0;
+
+      [front, back].forEach(face => {
+        let totalHeight = 0;
+        face.querySelectorAll('p, h4, .prompt-example, .flip-hint').forEach(el => {
+          const cached = pretextCache.get(el);
+          if (cached) {
+            const lineHeight = parseFloat(window.getComputedStyle(el).lineHeight) || 24;
+            const measured = layout(cached, containerWidth, lineHeight);
+            totalHeight += measured.height + 8;
+          } else {
+            totalHeight += el.offsetHeight + 8;
+          }
+        });
+        maxHeight = Math.max(maxHeight, totalHeight);
+      });
+
+      if (maxHeight > 0) {
+        card.style.minHeight = (maxHeight + 56) + 'px'; // add padding
+      }
+    });
+
+    // Balanced card text — set max-width to prevent orphans
+    pretextCache.forEach((prepared, el) => {
+      if (!el.closest('.card') || el.closest('.flip-card')) return;
+      const containerWidth = el.parentElement.offsetWidth;
+      const lineHeight = parseFloat(window.getComputedStyle(el).lineHeight) || 24;
+      const measured = layout(prepared, containerWidth, lineHeight);
+      if (measured.lines && measured.lines.length > 1) {
+        // Find optimal width that balances lines
+        let lo = containerWidth * 0.5;
+        let hi = containerWidth;
+        for (let i = 0; i < 8; i++) {
+          const mid = (lo + hi) / 2;
+          const test = layout(prepared, mid, lineHeight);
+          if (test.lines.length > measured.lines.length) {
+            lo = mid;
+          } else {
+            hi = mid;
+          }
+        }
+        el.style.maxWidth = Math.ceil(hi) + 'px';
+      }
+    });
+  });
+
+  // ---- Overflow detection on slide change ----
+  function checkOverflow(slide) {
+    const content = slide.scrollHeight;
+    const viewport = slide.clientHeight;
+    if (content > viewport + 10) {
+      slide.classList.add('has-overflow');
+    } else {
+      slide.classList.remove('has-overflow');
+    }
+  }
+
+  // ---- Resize handler: re-run pretext layout() (cheap) ----
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      // Re-run flip card height calculations
+      document.querySelectorAll('.flip-card').forEach(card => {
+        const front = card.querySelector('.flip-card-front');
+        const back = card.querySelector('.flip-card-back');
+        if (!front || !back) return;
+
+        const containerWidth = card.offsetWidth - 56;
+        let maxHeight = 0;
+
+        [front, back].forEach(face => {
+          let totalHeight = 0;
+          face.querySelectorAll('p, h4, .prompt-example, .flip-hint').forEach(el => {
+            const cached = pretextCache.get(el);
+            if (cached) {
+              const lineHeight = parseFloat(window.getComputedStyle(el).lineHeight) || 24;
+              const measured = layout(cached, containerWidth, lineHeight);
+              totalHeight += measured.height + 8;
+            } else {
+              totalHeight += el.offsetHeight + 8;
+            }
+          });
+          maxHeight = Math.max(maxHeight, totalHeight);
+        });
+
+        if (maxHeight > 0) {
+          card.style.minHeight = (maxHeight + 56) + 'px';
+        }
+      });
+
+      // Check overflow on current slide
+      const current = Reveal.getCurrentSlide();
+      if (current) checkOverflow(current);
+    }, 150);
+  });
+
   // ---- Reveal slide change event ----
   Reveal.on('slidechanged', event => {
     const slide = event.currentSlide;
 
-    // Only animate counters that are NOT inside a fragment (visible immediately)
+    // Counters (non-fragment)
     slide.querySelectorAll('[data-counter]').forEach(el => {
       if (!el.closest('.fragment')) {
         animateCounter(el);
@@ -129,6 +257,9 @@ document.addEventListener('DOMContentLoaded', () => {
     slide.querySelectorAll('[data-typing]').forEach(el => {
       typeText(el);
     });
+
+    // Overflow check
+    checkOverflow(slide);
   });
 
   // ---- Fragment shown: animate counters inside revealed fragments ----
@@ -137,17 +268,16 @@ document.addEventListener('DOMContentLoaded', () => {
     fragment.querySelectorAll('[data-counter]').forEach(el => {
       animateCounter(el);
     });
-    // Also trigger progress bars inside fragments
     animateProgressBars(fragment);
   });
 
-  // Trigger animations for initial slide too
+  // Trigger animations for initial slide
   const firstSlide = Reveal.getCurrentSlide();
   if (firstSlide) {
     firstSlide.querySelectorAll('[data-counter]').forEach(el => {
       if (!el.closest('.fragment')) animateCounter(el);
     });
     animateProgressBars(firstSlide);
+    checkOverflow(firstSlide);
   }
-  }); // end Reveal.initialize().then()
-});
+}); // end Reveal.initialize().then()

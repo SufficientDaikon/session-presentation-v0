@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/theme/black.min.css">
   <link rel="stylesheet" href="css/custom.css">
+  <link rel="modulepreload" href="https://esm.sh/@chenglou/pretext@0.0.5">
 </head>
 <body>
 
@@ -20,7 +21,7 @@
     <h1 class="hero-title">AI in Your Workflow</h1>
     <p class="hero-subtitle">a practical guide for people who actually want to get stuff done</p>
     <p class="hero-meta">by Ahmed Taha &middot; live session &middot; ask questions anytime</p>
-    <div style="margin-top: 2em;">
+    <div style="margin-top: var(--space-lg);">
       <span class="tag tag-blue">prompting</span>
       <span class="tag tag-orange">tools</span>
       <span class="tag tag-purple">workflows</span>
@@ -31,7 +32,7 @@
   <!-- ==================== SLIDE 2: THE REALITY CHECK ==================== -->
   <section data-auto-animate data-background-color="#0f0f1a">
     <h2 data-id="reality-title">let's be real for a second</h2>
-    <div class="card-grid cols-2" style="margin-top: 30px;">
+    <div class="card-grid" style="margin-top: var(--space-md);">
       <div class="card fragment">
         <h4>what most people think AI is</h4>
         <p>"type question, get answer, done"</p>
@@ -63,8 +64,8 @@
         <div class="stat-label">is all it takes to learn the core ideas</div>
       </div>
     </div>
-    <div style="margin-top: 30px;">
-      <div style="display: flex; justify-content: space-between; font-size: 0.65em; color: var(--text-muted); margin-bottom: 4px;">
+    <div style="margin-top: var(--space-md);">
+      <div style="display: flex; justify-content: space-between; font-size: var(--fs-xs); color: var(--text-muted); margin-bottom: var(--space-xs);">
         <span>where most people are</span>
         <span>where you'll be after this session</span>
       </div>
@@ -86,7 +87,7 @@
     <h2>the core idea is simple</h2>
     <p>AI doesn't read your mind. the more context you give, the better the output.</p>
 
-    <div class="flow-diagram" style="margin: 40px 0;">
+    <div class="flow-diagram" style="margin: var(--space-lg) 0;">
       <div class="flow-step">
         <div class="step-icon">🎯</div>
         <div class="step-label">what you want</div>
@@ -122,7 +123,7 @@
             <span class="prompt-label">prompt</span>
             <span class="bad">write me a marketing email</span>
           </div>
-          <p style="font-size: 0.65em !important; color: var(--text-muted) !important;">vague, no context, the AI is just guessing at this point</p>
+          <p style="font-size: var(--fs-xs); color: var(--text-muted);">vague, no context, the AI is just guessing at this point</p>
         </div>
         <div class="comparison-col good-col">
           <h4>what actually works</h4>
@@ -135,7 +136,7 @@ include: one pain point, the solution, a single CTA.
 length: under 150 words.
 do not use the phrase "game changer" or any corporate buzzwords.</span>
           </div>
-          <p style="font-size: 0.65em !important; color: var(--text-muted) !important;">specific, constrained, tells the AI exactly what good looks like</p>
+          <p style="font-size: var(--fs-xs); color: var(--text-muted);">specific, constrained, tells the AI exactly what good looks like</p>
         </div>
       </div>
     </div>
@@ -145,43 +146,43 @@ do not use the phrase "game changer" or any corporate buzzwords.</span>
   <section data-background-color="#0f0f1a">
     <h2>patterns that work every time</h2>
     <p style="color: var(--text-muted);">click each card to see the example</p>
-    <div class="card-grid cols-3">
+    <div class="card-grid">
       <div class="flip-card fragment">
         <div class="flip-card-inner">
           <div class="flip-card-front">
-            <h4 style="color: var(--accent); margin: 0 0 8px 0;">Role Setting</h4>
-            <p style="font-size: 0.72em !important; color: var(--text-muted) !important;">"you are a..."</p>
-            <p style="font-size: 0.72em !important; color: var(--text-main) !important;">give the AI a specific persona with expertise relevant to your task</p>
+            <h4 style="color: var(--accent); margin: 0 0 var(--space-xs) 0;">Role Setting</h4>
+            <p style="font-size: var(--fs-small); color: var(--text-muted);">"you are a..."</p>
+            <p style="font-size: var(--fs-small); color: var(--text-main);">give the AI a specific persona with expertise relevant to your task</p>
             <div class="flip-hint">click to see example →</div>
           </div>
           <div class="flip-card-back">
-            <div class="prompt-example" style="margin: 0; font-size: 0.6em;">you are a senior UX researcher with 10 years of experience in B2B SaaS. analyze this user flow and identify friction points.</div>
+            <div class="prompt-example" style="margin: 0; font-size: var(--fs-xs);">you are a senior UX researcher with 10 years of experience in B2B SaaS. analyze this user flow and identify friction points.</div>
           </div>
         </div>
       </div>
       <div class="flip-card fragment">
         <div class="flip-card-inner">
           <div class="flip-card-front">
-            <h4 style="color: var(--accent-2); margin: 0 0 8px 0;">Chain of Thought</h4>
-            <p style="font-size: 0.72em !important; color: var(--text-muted) !important;">"think step by step"</p>
-            <p style="font-size: 0.72em !important; color: var(--text-main) !important;">force the AI to reason through problems instead of jumping to answers</p>
+            <h4 style="color: var(--accent-2); margin: 0 0 var(--space-xs) 0;">Chain of Thought</h4>
+            <p style="font-size: var(--fs-small); color: var(--text-muted);">"think step by step"</p>
+            <p style="font-size: var(--fs-small); color: var(--text-main);">force the AI to reason through problems instead of jumping to answers</p>
             <div class="flip-hint">click to see example →</div>
           </div>
           <div class="flip-card-back">
-            <div class="prompt-example" style="margin: 0; font-size: 0.6em;">before giving your answer, think through this step by step: 1) what's the actual problem? 2) what are the constraints? 3) what are 3 possible solutions? 4) which is best and why?</div>
+            <div class="prompt-example" style="margin: 0; font-size: var(--fs-xs);">before giving your answer, think through this step by step: 1) what's the actual problem? 2) what are the constraints? 3) what are 3 possible solutions? 4) which is best and why?</div>
           </div>
         </div>
       </div>
       <div class="flip-card fragment">
         <div class="flip-card-inner">
           <div class="flip-card-front">
-            <h4 style="color: var(--accent-3); margin: 0 0 8px 0;">Few-Shot Examples</h4>
-            <p style="font-size: 0.72em !important; color: var(--text-muted) !important;">"like this, but..."</p>
-            <p style="font-size: 0.72em !important; color: var(--text-main) !important;">show the AI what you want by giving it examples of the format</p>
+            <h4 style="color: var(--accent-3); margin: 0 0 var(--space-xs) 0;">Few-Shot Examples</h4>
+            <p style="font-size: var(--fs-small); color: var(--text-muted);">"like this, but..."</p>
+            <p style="font-size: var(--fs-small); color: var(--text-main);">show the AI what you want by giving it examples of the format</p>
             <div class="flip-hint">click to see example →</div>
           </div>
           <div class="flip-card-back">
-            <div class="prompt-example" style="margin: 0; font-size: 0.6em;">convert these to catchy headlines. example: "new update" → "the update that changes how you work". now do: "pricing page redesign" →</div>
+            <div class="prompt-example" style="margin: 0; font-size: var(--fs-xs);">convert these to catchy headlines. example: "new update" → "the update that changes how you work". now do: "pricing page redesign" →</div>
           </div>
         </div>
       </div>
@@ -198,14 +199,14 @@ do not use the phrase "game changer" or any corporate buzzwords.</span>
   <!-- ==================== SLIDE 9: TOOL LANDSCAPE ==================== -->
   <section data-background-color="#0f0f1a">
     <h2>pick the right tool for the job</h2>
-    <div style="margin: 16px 0;">
+    <div style="margin: var(--space-sm) 0;">
       <button type="button" class="btn btn-primary" onclick="filterTools('all', this)">All</button>
       <button type="button" class="btn btn-ghost" onclick="filterTools('writing', this)">Writing</button>
       <button type="button" class="btn btn-ghost" onclick="filterTools('coding', this)">Coding</button>
       <button type="button" class="btn btn-ghost" onclick="filterTools('visual', this)">Visual</button>
       <button type="button" class="btn btn-ghost" onclick="filterTools('research', this)">Research</button>
     </div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: var(--space-sm); margin-top: var(--space-sm);">
       <div class="tool-item" data-category="writing">
         <div class="tool-icon">💬</div>
         <div class="tool-info">
@@ -289,7 +290,7 @@ do not use the phrase "game changer" or any corporate buzzwords.</span>
         <div class="step-label">iterate until it's right</div>
       </div>
     </div>
-    <div class="fragment" style="margin-top: 30px;">
+    <div class="fragment" style="margin-top: var(--space-md);">
       <div class="card" style="border-color: var(--accent);">
         <h4>the real trick</h4>
         <p>don't use one tool for everything. use ChatGPT for the outline, Claude for the writing, Midjourney for the visuals, and Perplexity when you need facts. chain them together. that's the workflow.</p>
@@ -308,20 +309,20 @@ do not use the phrase "game changer" or any corporate buzzwords.</span>
   <section data-auto-animate data-background-color="#0f0f1a">
     <h2>example: making a blog post</h2>
     <p style="color: var(--text-muted);">here's how i'd actually do it, step by step</p>
-    <div style="margin-top: 20px;">
-      <div class="card fragment" style="margin-bottom: 12px; border-left: 3px solid var(--accent);">
+    <div style="margin-top: var(--space-sm);">
+      <div class="card fragment" style="margin-bottom: var(--space-sm); border-left: 3px solid var(--accent);">
         <h4>step 1: research</h4>
         <p>perplexity: "what are the top 5 trends in [topic] this month? give me sources"</p>
       </div>
-      <div class="card fragment" style="margin-bottom: 12px; border-left: 3px solid var(--accent-2);">
+      <div class="card fragment" style="margin-bottom: var(--space-sm); border-left: 3px solid var(--accent-2);">
         <h4>step 2: outline</h4>
         <p>claude: "take these research notes and create a blog outline. audience is [X]. tone is casual. include a hook, 3 sections, and a strong ending"</p>
       </div>
-      <div class="card fragment" style="margin-bottom: 12px; border-left: 3px solid var(--accent-3);">
+      <div class="card fragment" style="margin-bottom: var(--space-sm); border-left: 3px solid var(--accent-3);">
         <h4>step 3: write</h4>
         <p>claude: "write section 1 based on this outline. match this writing style: [paste example]. keep paragraphs short."</p>
       </div>
-      <div class="card fragment" style="margin-bottom: 12px; border-left: 3px solid #4ade80;">
+      <div class="card fragment" style="margin-bottom: var(--space-sm); border-left: 3px solid #4ade80;">
         <h4>step 4: visuals</h4>
         <p>midjourney: generate a header image. canva AI: create social cards.</p>
       </div>
@@ -337,11 +338,11 @@ do not use the phrase "game changer" or any corporate buzzwords.</span>
     <div class="live-demo-badge"><div class="live-dot"></div> LIVE DEMO</div>
     <h2>let me show you</h2>
     <p>i'm going to open Claude right now and build something from scratch while you watch</p>
-    <div class="card" style="margin-top: 30px; text-align: center; border-color: var(--accent);">
+    <div class="card" style="margin-top: var(--space-md); text-align: center; border-color: var(--accent);">
       <h4>what we'll build together</h4>
-      <p style="font-size: 0.9em !important; color: var(--text-main) !important;">i'll take a random idea from the audience and turn it into a real thing using AI</p>
+      <p style="font-size: var(--fs-body); color: var(--text-main);">i'll take a random idea from the audience and turn it into a real thing using AI</p>
       <p>write the plan, generate the content, create the visuals, review it. all live.</p>
-      <div style="margin-top: 16px;">
+      <div style="margin-top: var(--space-sm);">
         <button type="button" class="btn btn-primary glow-pulse" onclick="this.textContent = '🎯 give me a topic in the chat!'">ready? click here</button>
       </div>
     </div>
@@ -357,7 +358,7 @@ do not use the phrase "game changer" or any corporate buzzwords.</span>
   <!-- ==================== SLIDE 15: COMMON MISTAKES ==================== -->
   <section data-background-color="#0f0f1a">
     <h2>mistakes i see all the time</h2>
-    <div class="card-grid cols-2">
+    <div class="card-grid">
       <div class="card fragment">
         <h4 style="color: #f87171;">accepting the first output</h4>
         <p>the first answer is rarely the best one. iterate. push back. say "that's not quite right, try again but..." and give it more direction.</p>
@@ -418,7 +419,7 @@ do not use the phrase "game changer" or any corporate buzzwords.</span>
   <section data-background-color="#0f0f1a">
     <h2>system prompts are your superpower</h2>
     <p>this is how you create an AI that works exactly how you want, every single time</p>
-    <div class="prompt-example fragment" style="margin-top: 20px;">
+    <div class="prompt-example fragment" style="margin-top: var(--space-sm);">
       <span class="prompt-label">system prompt example</span>
 <span class="highlight">you are my writing assistant.</span>
 
@@ -431,14 +432,14 @@ rules:
 
 when i paste text, improve it silently. don't explain what you changed unless i ask.
     </div>
-    <p class="fragment" style="color: var(--accent); font-size: 0.75em; margin-top: 16px;">set this once in Custom Instructions and every conversation starts with your rules already loaded</p>
+    <p class="fragment" style="color: var(--accent); font-size: var(--fs-small); margin-top: var(--space-sm);">set this once in Custom Instructions and every conversation starts with your rules already loaded</p>
   </section>
 
   <!-- ==================== SLIDE 19: CHAINING ==================== -->
   <section data-auto-animate data-background-color="#0f0f1a">
     <h2>chaining: the real workflow</h2>
     <p style="color: var(--text-muted);">output of tool A becomes input of tool B</p>
-    <div class="flow-diagram" style="margin: 30px 0;">
+    <div class="flow-diagram" style="margin: var(--space-md) 0;">
       <div class="flow-step">
         <div class="step-icon">🔍</div>
         <div class="step-label">Perplexity<br><small style="opacity: 0.5;">research</small></div>
@@ -469,28 +470,28 @@ when i paste text, improve it silently. don't explain what you changed unless i 
   <section data-background-color="#0f0f1a">
     <h2>your action plan after this session</h2>
     <p style="color: var(--text-muted);">don't try to learn everything. start here.</p>
-    <div style="margin-top: 20px;">
-      <div class="card fragment" style="margin-bottom: 12px;">
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <div style="font-size: 1.8em;">1</div>
+    <div style="margin-top: var(--space-sm);">
+      <div class="card fragment" style="margin-bottom: var(--space-sm);">
+        <div style="display: flex; align-items: center; gap: var(--space-sm);">
+          <div style="font-size: var(--fs-stat);">1</div>
           <div>
             <h4>pick ONE tool and get good at it</h4>
             <p>don't spread yourself thin. pick Claude or ChatGPT. use it every day for a week. for everything.</p>
           </div>
         </div>
       </div>
-      <div class="card fragment" style="margin-bottom: 12px;">
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <div style="font-size: 1.8em;">2</div>
+      <div class="card fragment" style="margin-bottom: var(--space-sm);">
+        <div style="display: flex; align-items: center; gap: var(--space-sm);">
+          <div style="font-size: var(--fs-stat);">2</div>
           <div>
             <h4>set up your custom instructions</h4>
             <p>tell the AI who you are, what you do, and how you like things done. this alone will 3x the quality of outputs.</p>
           </div>
         </div>
       </div>
-      <div class="card fragment" style="margin-bottom: 12px;">
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <div style="font-size: 1.8em;">3</div>
+      <div class="card fragment" style="margin-bottom: var(--space-sm);">
+        <div style="display: flex; align-items: center; gap: var(--space-sm);">
+          <div style="font-size: var(--fs-stat);">3</div>
           <div>
             <h4>start saving prompts that work</h4>
             <p>when something gives you a great result, save the prompt. build your library. this compounds fast.</p>
@@ -498,8 +499,8 @@ when i paste text, improve it silently. don't explain what you changed unless i 
         </div>
       </div>
       <div class="card fragment">
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <div style="font-size: 1.8em;">4</div>
+        <div style="display: flex; align-items: center; gap: var(--space-sm);">
+          <div style="font-size: var(--fs-stat);">4</div>
           <div>
             <h4>add a second tool</h4>
             <p>once you're comfortable, add a specialized tool. if you write, try midjourney. if you code, try cursor. chain them.</p>
@@ -515,7 +516,7 @@ when i paste text, improve it silently. don't explain what you changed unless i 
       <div class="qa-icon">?</div>
       <h2 style="text-align: center;">questions?</h2>
       <p style="text-align: center; color: var(--text-muted);">ask anything, seriously. there's no dumb questions when it comes to this stuff. <br>we're all figuring it out together.</p>
-      <div style="margin-top: 40px;">
+      <div style="margin-top: var(--space-lg);">
         <button type="button" class="btn btn-primary btn-large glow-pulse" onclick="this.textContent = 'go ahead, ask away'">open the floor</button>
       </div>
     </div>
@@ -524,10 +525,10 @@ when i paste text, improve it silently. don't explain what you changed unless i 
   <!-- ==================== SLIDE 22: RESOURCES & CLOSE ==================== -->
   <section data-background-color="#0f0f1a">
     <h2>resources to keep learning</h2>
-    <div class="card-grid cols-2">
+    <div class="card-grid">
       <div class="card">
         <h4>tools mentioned</h4>
-        <div style="font-size: 0.7em; color: var(--text-muted);">
+        <div style="font-size: var(--fs-xs); color: var(--text-muted);">
           <p>Claude &middot; ChatGPT &middot; Perplexity</p>
           <p>Midjourney &middot; DALL-E &middot; Ideogram</p>
           <p>Cursor &middot; Claude Code &middot; GitHub Copilot</p>
@@ -537,16 +538,16 @@ when i paste text, improve it silently. don't explain what you changed unless i 
       </div>
       <div class="card">
         <h4>keep in touch</h4>
-        <div style="font-size: 0.7em; color: var(--text-muted);">
+        <div style="font-size: var(--fs-xs); color: var(--text-muted);">
           <p>github.com/SufficientDaikon</p>
           <p>linkedin: ahmed-taha225</p>
           <p>slides will be shared after the session</p>
-          <p style="color: var(--accent); margin-top: 12px;">if you found this useful, tell someone. that's the best feedback you can give.</p>
+          <p style="color: var(--accent); margin-top: var(--space-sm);">if you found this useful, tell someone. that's the best feedback you can give.</p>
         </div>
       </div>
     </div>
-    <div style="text-align: center; margin-top: 40px;">
-      <p class="hero-subtitle" style="font-size: 1.1em !important;">thanks for being here. now go build something.</p>
+    <div style="text-align: center; margin-top: var(--space-lg);">
+      <p class="hero-subtitle">thanks for being here. now go build something.</p>
     </div>
   </section>
 
@@ -554,7 +555,8 @@ when i paste text, improve it silently. don't explain what you changed unless i 
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
-<script src="js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fitty@2.4.2/dist/fitty.min.js"></script>
+<script type="module" src="js/main.js"></script>
 
 </body>
 </html>
