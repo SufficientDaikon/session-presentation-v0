@@ -646,10 +646,12 @@
   transform: translateX(4px);
 }
 .tool-icon {
-  font-size: var(--fs-h2);
   width: 40px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  color: var(--accent);
 }
 .tool-info h5 {
   margin: 0;
@@ -689,13 +691,6 @@
   color: var(--accent);
 }
 .flow-step .step-icon .sl-icon { width: 40px; height: 40px; }
-.tool-icon {
-  font-size: unset;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent);
-}
 .tool-icon .sl-icon { width: 32px; height: 32px; }
 
 /* ---------- Tool Category Accent Tints ---------- */

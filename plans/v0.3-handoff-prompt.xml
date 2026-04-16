@@ -1,0 +1,418 @@
+<handoff>
+
+<!-- ========================================
+     v0.3 Handoff Prompt — Desktop Polish + Icon Migration
+     From: v0.1 (responsive BYOL overhaul)
+     To:   v0.3 (professional icons, desktop space utilization, visual density)
+     ======================================== -->
+
+<identity>
+  You are a senior presentation designer and frontend developer.
+  Your output is Awwwards-quality. No shortcuts, no placeholders, no amateur patterns.
+  Casual voice in code comments. Direct. No corporate speak.
+  Never question the tools or libraries chosen — just use them.
+  Never ask "should I proceed?" — just execute.
+  Do not ask for confirmation on file creation, edits, installs, or config changes.
+  Commit after each phase. Deploy after the final phase.
+</identity>
+
+<rules>
+  <rule>ZERO emojis anywhere in the final output. Every icon is an inline SVG fetched from the Streamline API.</rule>
+  <rule>Every slide must feel intentionally designed on a 1920×1080 desktop — no dead space, no floating-in-void layouts.</rule>
+  <rule>Mobile must still work perfectly — this is additive polish, not a regression.</rule>
+  <rule>Zero build step. CDN-only static site. No bundler, no npm packages in the project.</rule>
+  <rule>All Streamline SVG icons are inlined directly in the HTML (not loaded at runtime via fetch). Download them during implementation and paste the SVG markup.</rule>
+  <rule>Deploy to Cloudflare Pages with --branch=master (production branch is master, not main).</rule>
+</rules>
+
+<first-steps priority-order="true">
+  <step priority="1">Read this prompt completely before touching any code.</step>
+  <step priority="2">Read the current files: index.html, css/custom.css, js/main.js</step>
+  <step priority="3">Read CLAUDE.md: c:\Users\tahaa\.claude\CLAUDE.md</step>
+  <step priority="4">Start local server: npx serve . -l 3000 --no-clipboard</step>
+  <step priority="5">Take desktop (1920×1080) and mobile (375×667) screenshots of every slide for before/after comparison.</step>
+  <step priority="6">Execute phases sequentially. Do not ask for permission between phases.</step>
+</first-steps>
+
+<!-- ==================== PROJECT STATE ==================== -->
+
+<project-state>
+  <repo>github.com/SufficientDaikon/session-presentation-v0</repo>
+  <live>https://session-presentation-v0.pages.dev</live>
+  <branch>main</branch>
+  <production-branch>master (Cloudflare Pages production branch — deploy with --branch=master)</production-branch>
+
+  <files>
+    <file path="index.html" role="22-slide reveal.js presentation, BYOL mode, all content"/>
+    <file path="css/custom.css" role="647 lines, fluid typography + container queries + intrinsic grids"/>
+    <file path="js/main.js" role="284 lines ESM module, reveal.js + Fitty + Pretext + interactivity"/>
+    <file path="plans/v0.1-plan.md" role="completed v0.1 plan — all 35 tasks checked off"/>
+  </files>
+
+  <current-stack>
+    <lib name="reveal.js" version="5.1.0" mode="BYOL (disableLayout: true)"/>
+    <lib name="Fitty.js" version="2.4.2" role="auto-scale display text"/>
+    <lib name="Pretext" version="0.0.5" role="DOM-free text measurement"/>
+    <lib name="Inter + JetBrains Mono" role="fonts via Google Fonts"/>
+  </current-stack>
+
+  <v0.1-summary>
+    Replaced reveal.js uniform 1280×720 scaling with responsive-first BYOL mode.
+    CSS clamp() fluid typography, container queries, intrinsic grids.
+    Fitty for hero titles + section numbers. Pretext for text measurement.
+    All inline styles migrated to CSS custom properties.
+    Problem: slides designed for 1280×720 now fill 1920×1080 — too much empty space on desktop.
+    Problem: all icons are emojis — looks amateur / unprofessional.
+  </v0.1-summary>
+</project-state>
+
+<!-- ==================== STREAMLINE ICON API ==================== -->
+
+<icon-system>
+  <provider>Streamline HQ — Free Icon Library</provider>
+  <api-base>https://public-api.streamlinehq.com/v1</api-base>
+  <api-key>YXMKM5um37lloVCN.6684f632aac73b3157fd196f0869e956</api-key>
+  <auth-header>x-api-key: YXMKM5um37lloVCN.6684f632aac73b3157fd196f0869e956</auth-header>
+
+  <workflow>
+    <step>Search: GET /v1/search/global?productType=icons&amp;query={query}&amp;limit=5 (with x-api-key header)</step>
+    <step>Pick the best match from results — prefer free icons (isFree: true), prefer "streamline-regular" or "heroicons" families for consistency.</step>
+    <step>Download SVG: GET /v1/icons/{hash}/download/svg?responsive=true (with x-api-key header)</step>
+    <step>Clean the SVG: remove any hardcoded fill/stroke colors, set stroke="currentColor" for themability.</step>
+    <step>Inline the SVG directly into index.html where the emoji currently sits.</step>
+  </workflow>
+
+  <svg-styling>
+    All icons should use stroke="currentColor" so they inherit text color from CSS.
+    Size icons via CSS class (e.g., .icon-sm { width: 24px; height: 24px; }, .icon-md { width: 32px; height: 32px; }, .icon-lg { width: 48px; height: 48px; }).
+    Add a base .sl-icon class for consistent styling: display: inline-flex, vertical-align: middle, flex-shrink: 0.
+    Add stroke-width: 1.5 as default for clean thin-line aesthetic.
+  </svg-styling>
+
+  <family-preference>
+    Prefer these families in order: streamline-regular, heroicons-outline, phosphor-light.
+    Stick to ONE family for the entire presentation for visual consistency.
+    If the first search returns no good match, try synonym queries (e.g., "target" instead of "bullseye").
+  </family-preference>
+</icon-system>
+
+<!-- ==================== EMOJI INVENTORY (21 instances to replace) ==================== -->
+
+<emoji-inventory>
+  <group name="Slide 5: Prompting Flow (4 icons)">
+    <emoji line="92" text="🎯" context="step-icon: what you want" suggested-query="target crosshair"/>
+    <emoji line="97" text="📋" context="step-icon: context + constraints" suggested-query="clipboard list"/>
+    <emoji line="102" text="🎨" context="step-icon: format + style" suggested-query="palette color"/>
+    <emoji line="107" text="✅" context="step-icon: quality output" suggested-query="check circle"/>
+  </group>
+
+  <group name="Slide 9: Tool Landscape (8 icons)">
+    <emoji line="211" text="💬" context="tool-icon: ChatGPT/Claude — writing" suggested-query="chat bubble message"/>
+    <emoji line="218" text="🔧" context="tool-icon: Claude Code/Cursor — coding" suggested-query="code terminal"/>
+    <emoji line="225" text="🎨" context="tool-icon: Midjourney/DALL-E — visual" suggested-query="image picture"/>
+    <emoji line="232" text="🔍" context="tool-icon: Perplexity — research" suggested-query="search magnifying-glass"/>
+    <emoji line="239" text="🎬" context="tool-icon: Runway/Kling — video" suggested-query="video play film"/>
+    <emoji line="246" text="📝" context="tool-icon: Notion AI — writing" suggested-query="document edit pen"/>
+    <emoji line="253" text="🤖" context="tool-icon: v0/Bolt — coding apps" suggested-query="robot cpu"/>
+    <emoji line="260" text="📊" context="tool-icon: Julius — data" suggested-query="chart bar-chart analytics"/>
+  </group>
+
+  <group name="Slide 10: Decision Flow (4 icons)">
+    <emoji line="274" text="🤔" context="step-icon: what am I trying to make?" suggested-query="question help think"/>
+    <emoji line="279" text="📂" context="step-icon: text? code? image? data?" suggested-query="folder category"/>
+    <emoji line="284" text="🛠️" context="step-icon: pick the specialized tool" suggested-query="tool wrench settings"/>
+    <emoji line="289" text="🔁" context="step-icon: iterate until it's right" suggested-query="refresh repeat loop"/>
+  </group>
+
+  <group name="Slide 13: Live Demo Button (1 emoji in JS string)">
+    <emoji line="346" text="🎯" context="button text: give me a topic in the chat!" note="This is in an onclick handler string. Replace with text only — no icon needed in button text, or prefix with a small inline SVG."/>
+  </group>
+
+  <group name="Slide 19: Chaining Flow (4 icons)">
+    <emoji line="444" text="🔍" context="step-icon: Perplexity — research" suggested-query="search magnifying-glass"/>
+    <emoji line="449" text="🧠" context="step-icon: Claude — synthesize" suggested-query="brain lightbulb idea"/>
+    <emoji line="454" text="🎨" context="step-icon: Midjourney — visualize" suggested-query="image picture"/>
+    <emoji line="459" text="📄" context="step-icon: Canva/Notion — publish" suggested-query="document page share"/>
+  </group>
+</emoji-inventory>
+
+<!-- ==================== PROBLEM ANALYSIS ==================== -->
+
+<problems>
+  <problem id="P1" severity="high" name="Empty Space on Desktop">
+    <description>
+      v0.1 switched to BYOL mode (slides fill 100dvh × 100vw). On 1920×1080 screens, slides
+      designed for 1280×720 worth of content now have ~40% more vertical and horizontal space.
+      Cards, grids, and flow diagrams cluster in the center with vast empty margins.
+    </description>
+    <affected-slides>
+      ALL content slides (2, 3, 5, 6, 7, 9, 10, 12, 15, 16, 18, 19, 20, 22).
+      Section dividers (4, 8, 11, 14, 17) are intentionally sparse — leave them.
+      Hero (1), Live Demo (13), Q&amp;A (21) have centered layouts that benefit from space — but could still be enhanced.
+    </affected-slides>
+  </problem>
+
+  <problem id="P2" severity="high" name="Emoji Icons Look Amateur">
+    <description>
+      21 emoji instances across 5 slide groups. Emojis render differently per OS/browser,
+      have no consistent visual weight, clash with the clean Inter typography, and scream
+      "I made this in 20 minutes." Professional presentations use monochrome line icons.
+    </description>
+  </problem>
+
+  <problem id="P3" severity="medium" name="Visual Hierarchy Weak on Desktop">
+    <description>
+      With more space available, the existing size relationships feel flat. Headings,
+      card titles, and body text need more contrast. Cards need more padding on desktop.
+      Flow diagrams need to breathe more.
+    </description>
+  </problem>
+</problems>
+
+<!-- ==================== IMPLEMENTATION PLAN ==================== -->
+
+<plan>
+
+  <!-- PHASE 1: Icon System Setup + Migration -->
+  <phase id="1" name="Icon System — Replace All Emojis with Streamline SVGs">
+    <description>
+      Fetch SVG icons from the Streamline API, clean them for themability, and replace
+      every emoji in index.html with inline SVG markup. Add CSS utility classes for icon sizing.
+    </description>
+
+    <tasks>
+      <task>Add icon CSS utility classes to custom.css: .sl-icon (base), .icon-sm (24px), .icon-md (32px), .icon-lg (48px), .icon-xl (64px)</task>
+      <task>For each emoji in the inventory: search Streamline API → download SVG → clean (stroke="currentColor", remove hardcoded colors) → inline into HTML</task>
+      <task>Use ONE icon family consistently (prefer streamline-regular or heroicons-outline)</task>
+      <task>Replace the onclick button text emoji (line 346) — either remove the icon from the JS string or use a text prefix like "→" instead</task>
+      <task>Verify all 21 replacements render correctly at desktop and mobile sizes</task>
+      <task>Icons in .step-icon and .tool-icon should inherit their parent's color (use currentColor)</task>
+    </tasks>
+
+    <icon-css>
+      /* Add to custom.css */
+      .sl-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        vertical-align: middle;
+        flex-shrink: 0;
+      }
+      .sl-icon svg {
+        width: 100%;
+        height: 100%;
+        stroke: currentColor;
+        stroke-width: 1.5;
+        fill: none;
+      }
+      .icon-sm { width: 24px; height: 24px; }
+      .icon-md { width: 32px; height: 32px; }
+      .icon-lg { width: 48px; height: 48px; }
+      .icon-xl { width: 64px; height: 64px; }
+
+      /* Override step-icon and tool-icon to work with SVGs */
+      .flow-step .step-icon {
+        font-size: unset; /* remove the emoji font-size */
+        display: flex;
+        justify-content: center;
+        color: var(--accent);
+      }
+      .flow-step .step-icon .sl-icon { width: 40px; height: 40px; }
+      .tool-icon {
+        font-size: unset;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent);
+      }
+      .tool-icon .sl-icon { width: 32px; height: 32px; }
+    </icon-css>
+
+    <commit-message>feat: replace all emojis with Streamline SVG icons</commit-message>
+  </phase>
+
+  <!-- PHASE 2: Desktop Space Utilization — Layout Upgrades -->
+  <phase id="2" name="Desktop Space Utilization — Fill the Void">
+    <description>
+      Use the extra desktop space intentionally. Wider content areas, more padding inside cards,
+      larger visual elements, and better use of the horizontal axis. Container queries handle
+      the desktop-specific enhancements so mobile is untouched.
+    </description>
+
+    <strategy>
+      Use @container (min-width: 900px) rules to expand layouts on wide screens.
+      Do NOT use @media queries — container queries are already established in v0.1.
+      The goal is NOT to add more content — it's to let existing content breathe and fill space naturally.
+    </strategy>
+
+    <tasks>
+      <task>Increase --slide-pad max from 3.75rem to 5rem for desktop: --slide-pad: clamp(1rem, 3vw, 5rem)</task>
+      <task>Card grid: on wide containers (&gt;900px), enforce 2-column for 2-card layouts, 3-column for 3+ cards with larger gap</task>
+      <task>Cards: increase padding on wide containers — var(--space-lg) instead of var(--space-md)</task>
+      <task>Flow diagrams: on wide containers, increase step min-width to 180px, add more gap, make icons larger</task>
+      <task>Stats row: on wide containers, increase stat-number font size, add more horizontal spacing</task>
+      <task>Comparison columns: on wide containers, increase padding to var(--space-lg), give good/bad cols more room</task>
+      <task>Prompt examples (code blocks): on wide containers, increase padding and font size slightly for readability</task>
+      <task>Hero slide: let the subtitle and meta text spread wider, increase tag spacing</task>
+      <task>Section dividers: increase section-number max size, add subtle decorative line or accent below the subtitle</task>
+      <task>Q&amp;A slide: increase the question mark icon size on desktop, add more vertical rhythm</task>
+      <task>Action plan (slide 20): on wide containers, make the numbered cards wider with more breathing room</task>
+      <task>Resources slide (22): on wide containers, 2-column with proper spacing, not cramped</task>
+    </tasks>
+
+    <commit-message>feat: desktop space utilization with container query upgrades</commit-message>
+  </phase>
+
+  <!-- PHASE 3: Visual Hierarchy Enhancement -->
+  <phase id="3" name="Visual Hierarchy — Desktop Typography + Spacing Tuning">
+    <description>
+      With more room on desktop, increase the contrast between hierarchy levels.
+      Bigger headings, more whitespace between sections, subtle visual accents.
+    </description>
+
+    <tasks>
+      <task>Increase --fs-h2 max from 2.2rem to 2.6rem for more heading presence on desktop</task>
+      <task>Increase --fs-h3 max from 1.5rem to 1.75rem</task>
+      <task>Increase --fs-body max from 1.1rem to 1.2rem for comfortable desktop reading</task>
+      <task>Add more vertical spacing between heading and first content element on desktop (use container query to add margin-bottom to h2)</task>
+      <task>Card h4 titles: increase font weight to 700 on desktop for stronger anchor</task>
+      <task>Error cards (slide 15): add subtle icon or visual marker to each mistake card (4 cards, use consistent warning/alert icon from Streamline)</task>
+      <task>Good/bad comparison headings: make them larger and bolder on desktop</task>
+      <task>Flow arrows: increase size and add subtle animation (fade-in) on desktop</task>
+    </tasks>
+
+    <commit-message>feat: visual hierarchy tuning for desktop typography</commit-message>
+  </phase>
+
+  <!-- PHASE 4: Polish + Subtle Enhancements -->
+  <phase id="4" name="Polish — Subtle Visual Enhancements">
+    <description>
+      Small details that elevate the whole presentation from "functional" to "designed."
+    </description>
+
+    <tasks>
+      <task>Add subtle gradient mesh background to section dividers (CSS only, no images)</task>
+      <task>Flip cards: add a subtle icon in the top-right corner of the front face to hint "interactive"</task>
+      <task>Tool grid items: give each category a subtle accent color tint (writing=blue, coding=orange, visual=purple, research=green)</task>
+      <task>Progress bar: add subtle gradient animation (shimmer effect)</task>
+      <task>Hero slide tags: add tiny icons before each tag text (prompting → target icon, tools → wrench icon, etc.)</task>
+      <task>Resources slide: add proper icons next to the social links (GitHub icon, LinkedIn icon)</task>
+      <task>Closing subtitle: add a subtle accent underline animation</task>
+    </tasks>
+
+    <commit-message>feat: visual polish with subtle design enhancements</commit-message>
+  </phase>
+
+  <!-- PHASE 5: Review + Deploy -->
+  <phase id="5" name="Review + Deploy">
+    <tasks>
+      <task>Take after-screenshots at 1920×1080 and 375×667 for every slide</task>
+      <task>Verify all 21 emoji replacements are correct SVG icons</task>
+      <task>Verify no regressions on mobile (375×667)</task>
+      <task>Verify landscape mobile (667×375)</task>
+      <task>Verify all animations still work: flip cards, counters, progress bars, flow diagrams, tool filter</task>
+      <task>Verify Fitty still works on hero title, section numbers, Q&amp;A icon</task>
+      <task>Run a code reviewer subagent against all 3 files</task>
+      <task>Fix any issues found</task>
+      <task>Deploy: npx wrangler pages deploy . --project-name=session-presentation-v0 --branch=master</task>
+      <task>Verify live site: https://session-presentation-v0.pages.dev</task>
+      <task>Push to GitHub: git push origin main</task>
+    </tasks>
+
+    <commit-message>chore: v0.3 review pass + deploy</commit-message>
+  </phase>
+
+</plan>
+
+<!-- ==================== KEY DECISIONS ==================== -->
+
+<key-decisions>
+  <decision name="Inline SVGs over img tags">
+    SVGs are inlined directly in HTML (not loaded via img src or fetched at runtime).
+    This means: zero additional HTTP requests, instant rendering, full CSS control via currentColor,
+    no CORS issues, works offline. The trade-off (slightly larger HTML) is negligible for 21 icons.
+  </decision>
+
+  <decision name="One icon family for consistency">
+    Pick ONE Streamline family and stick with it. Mixed icon styles (some outline, some filled,
+    some thick, some thin) look worse than emojis. Consistency is the whole point.
+  </decision>
+
+  <decision name="Container queries for desktop, not media queries">
+    v0.1 established container queries. v0.3 extends them. Do not introduce media queries.
+    @container (min-width: 900px) for desktop enhancements. @container (min-width: 1200px) for ultra-wide.
+  </decision>
+
+  <decision name="No new JS libraries">
+    The icon migration is pure HTML/CSS. The desktop space utilization is pure CSS.
+    main.js should not need changes unless Fitty/Pretext selectors are affected.
+  </decision>
+
+  <decision name="Space utilization ≠ adding content">
+    The goal is NOT to add new slides or new text. It's to let existing content use the
+    available space more intentionally: bigger cards, more padding, wider grids, larger icons,
+    more breathing room. The content is good — the layout needs to match the viewport.
+  </decision>
+</key-decisions>
+
+<!-- ==================== GOTCHAS ==================== -->
+
+<gotchas>
+  <gotcha name="Streamline API rate limits">
+    The free API may have rate limits. Batch your searches. If you get 429s, wait and retry.
+    Cache the SVG content — don't re-fetch the same icon.
+  </gotcha>
+
+  <gotcha name="SVG cleanup">
+    Streamline SVGs may have hardcoded fill="#000000" or stroke="#000000".
+    Replace with fill="none" stroke="currentColor" for themability.
+    Some may have width/height attributes — remove them and use viewBox only.
+  </gotcha>
+
+  <gotcha name="Fitty + SVG icons">
+    Fitty targets .hero-title, .section-number, .qa-icon by class.
+    If you add SVGs inside these elements, Fitty may measure incorrectly.
+    Keep Fitty targets as text-only elements. Put icons in sibling or parent elements.
+  </gotcha>
+
+  <gotcha name="Container query nesting">
+    Container queries don't work on the container element itself — only on its children.
+    The slide section has container-type: inline-size. All @container rules must target
+    children of the section, not the section itself.
+  </gotcha>
+
+  <gotcha name="Deploy branch">
+    Cloudflare Pages production branch is "master". Always deploy with --branch=master.
+    Without this flag, deploys land in Preview and the root domain stays stale.
+  </gotcha>
+
+  <gotcha name="Button onclick emoji">
+    Line 346 has an emoji in a JS onclick string: '🎯 give me a topic in the chat!'
+    This can't be an SVG — replace with a text character like "→" or just remove it.
+  </gotcha>
+</gotchas>
+
+<!-- ==================== TESTING ==================== -->
+
+<testing>
+  <viewport name="Desktop HD" width="1920" height="1080" priority="primary"/>
+  <viewport name="Desktop" width="1280" height="720" priority="secondary"/>
+  <viewport name="Mobile" width="375" height="667" priority="critical-no-regression"/>
+  <viewport name="Landscape Mobile" width="667" height="375" priority="check"/>
+  <viewport name="Tablet" width="768" height="1024" priority="check"/>
+
+  <checklist>
+    <check>All 21 emojis replaced with SVG icons</check>
+    <check>Icons render at correct size across all viewports</check>
+    <check>Icons inherit color from parent (currentColor working)</check>
+    <check>Desktop slides feel intentionally designed — no dead space</check>
+    <check>Mobile layout unchanged or improved</check>
+    <check>All animations functional (flip cards, counters, progress bars, flows, tool filter)</check>
+    <check>Fitty still works on hero title, section numbers, Q&amp;A</check>
+    <check>Pretext still works for text measurement</check>
+    <check>No console errors</check>
+    <check>Live site at session-presentation-v0.pages.dev serves latest version</check>
+  </checklist>
+</testing>
+
+</handoff>
